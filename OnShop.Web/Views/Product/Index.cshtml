@@ -1,0 +1,277 @@
+﻿@using OnShop.Domain.Enum
+@using OnShop.Web.Common
+@model OnShop.Framework.Common.PagedResults<OnShop.Domain.DTOs.Site.Products.ProductSiteDto>
+@inject IResourceManager _resourceManager
+
+@{
+    ViewData["Title"] = _resourceManager[SharedResource.Product];
+}
+<div class="shop_area shop_reverse">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-12">
+                <!--sidebar widget start-->
+
+                @await Component.InvokeAsync("ProductFilter")
+                <!--sidebar widget end-->
+            </div>
+            <div class="col-lg-9 col-md-12">
+                <!--shop wrapper start-->
+                <!--shop toolbar start-->
+                <div class="shop_banner">
+                    <img src="assets/img/bg/banner8.jpg" alt="">
+                </div>
+                <div class="shop_title">
+                    <h1>@_resourceManager[SharedResource.Shop]</h1>
+                </div>
+                <div class="shop_toolbar_wrapper">
+                    <div class="shop_toolbar_btn">
+
+                        <button data-role="grid_3" type="button" class="active btn-grid-3" data-toggle="tooltip" title="3"></button>
+
+                        <button data-role="grid_4" type="button" class=" btn-grid-4" data-toggle="tooltip" title="4"></button>
+
+                        <button data-role="grid_list" type="button" class="btn-list" data-toggle="tooltip" title="List"></button>
+                    </div>
+                    <div class="">
+                        <form class="" asp-action="Index" method="get">
+                            <select onchange="OrderFilter(this)" id="ordering" class="form-control" asp-items="Html.GetEnumSelectList<Ordering>()">
+                            </select>
+                        </form>
+
+                    </div>
+                    <div class="page_amount">
+                        <p>نمایش  @Model.FirstRowOnPage تا @Model.LastRowOnPage از <strong>@Model.PageCount</strong> محصول</p>
+                    </div>
+                </div>
+                <!--shop toolbar end-->
+                <div class="row shop_wrapper">
+                    @foreach (var item in Model.Data)
+                    {
+                        <div class="col-lg-4 col-md-4 col-12 ">
+                            <div class="single_product">
+                                <div class="product_name grid_name">
+                                    <h3><a target="_blank" href="/product/productDetail/@item.Id" >@item.Title</a></h3>
+                                    <p class="manufacture_product"><a href="#"> @item.CategoryName </a></p>
+                                </div>
+                                <div class="product_thumb">
+
+                                    <a class="primary_img" target="_blank" href="/product/productDetail/@item.Id"><img src="/@item.ImageSrc.FirstOrDefault()" alt=""></a>
+                                    @if (item.ImageSrc.Count > 1)
+                                    {
+                                        <a class="secondary_img" target="_blank" href="/product/productDetail/@item.Id"><img src="/@item.ImageSrc.LastOrDefault()" alt=""></a>
+                                    }
+                                    @if (item.Discount > 0)
+                                    {
+                                        <div class="label_product">
+                                            <span class="label_sale">@item.Discount%-</span>
+                                        </div>
+                                    }
+
+                                    <div class="action_links">
+                                        <ul>
+                                            <li class="quick_button"><a href="#" data-toggle="modal" data-target="#modal_box" title="نمایش جزئیات"> <span class="lnr lnr-magnifier"></span></a></li>
+                                            <li class="wishlist"><a href="" title="افزودن به سبد خرید"><span class="lnr lnr-heart"></span></a></li>
+                                            <li class="مقایسه کنید"><a href="" title="مقایسه کنید"><span class="lnr lnr-sync"></span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="product_content grid_content">
+                                    <div class="content_inner">
+                                        <div class="product_ratings">
+                                            <ul>
+                                                @for (var i = 0; i < item.Star; i++)
+                                                {
+                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
+
+                                                }
+                                                @for (var i = 0; i < (5 - item.Star); i++)
+                                                {
+                                                    <li><a href="#"><i class="fa fa-star-o"></i></a></li>
+
+                                                }
+                                            </ul>
+                                        </div>
+                                        <div class="product_footer d-flex align-items-center">
+                                            <div class="price_box">
+                                                @if (item.Quantity > 0)
+                                                {
+                                                    <span class="current_price">@item.CurrentPrice.ToToman()</span>
+                                                    @if (item.Price > 0)
+                                                    {
+                                                        <span class="old_price text-muted">@item.OldPrice.ToToman()</span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span class="current_price">@item.Available</span>
+                                                }
+
+                                            </div>
+                                            <div class="add_to_cart">
+                                                @if (item.Quantity > 0)
+                                                {
+
+                                                    <a href="/Cart/AddToBasket/@item.Id" title="افزودن به سبد خرید"><span class="lnr lnr-cart"></span></a>
+
+                                                }
+                                                else
+                                                {
+                                                    <a href="cart.html" title="موجود شد به من اطلاع بده"><span class="lnr lnr-alarm"></span></a>
+                                                }
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product_content list_content">
+                                    <div class="left_caption">
+                                        <div class="product_name">
+                                            <h3><a href="product-details.html">@($"{item.Code} - {item.Title}") </a></h3>
+                                        </div>
+                                        <div class="product_ratings">
+                                            <ul>
+                                                @for (var i = 1; i < item.Star; i++)
+                                                {
+                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
+
+                                                }
+                                                @for (var i = 1; i < (5 - item.Star); i++)
+                                                {
+                                                    <li><a href="#"><i class="fa fa-star-o"></i></a></li>
+
+                                                }
+
+                                            </ul>
+                                        </div>
+
+                                        <div class="product_desc">
+                                            <p>
+                                                @item.ShortDescription
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="right_caption">
+                                        <div class="text_available">
+                                            @if (item.Quantity > 0)
+                                            {
+                                                <p> موجود در انبار :<span class="text-success"> @item.Quantity عدد </span></p>
+                                            }
+                                            else
+                                            {
+                                                <p> <span class="text-danger"> @_resourceManager[SharedResource.Unavailable] </span></p>
+
+                                            }
+                                        </div>
+                                        @if (item.Quantity > 0)
+                                        {
+                                            <div class="price_box">
+
+                                                <span class="current_price">@item.CurrentPrice.ToToman()</span>
+                                                @if (item.Price > 0)
+                                                {
+                                                    <p class="h6"><span class="old_price "><small class="text-muted">@item.OldPrice.ToToman() </small></span></p>
+                                                }
+                                            </div>
+                                            <div class="cart_links_btn">
+                                                <a href="#" title="@_resourceManager[SharedResource.AddToCart]">@_resourceManager[SharedResource.AddToCart]</a>
+                                            </div>
+                                        }
+
+                                        <div class="action_links_btn">
+                                            <ul>
+                                                <li class="quick_button"><a data-toggle="modal" data-target="#modal_box" title="نمایش جزئیات"> <span class="lnr lnr-magnifier"></span></a></li>
+                                                <li class="wishlist"><a href="wishlist.html" title="@_resourceManager[SharedResource.AddToCart]"><span class="lnr lnr-heart"></span></a></li>
+                                                <li class="مقایسه کنید"><a href="compare.html" title="مقایسه کنید"><span class="lnr lnr-sync"></span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+
+
+                <div class="shop_toolbar t_bottom">
+                    <div class="pagination">
+                        @*<pager pager-model="@Model"></pager>*@
+                        <paging total-records="Model.RowCount"
+                                page-size="Model.PageSize"
+                                page-no="Model.CurrentPage"
+                                show-prev-next="true"
+                                show-total-pages="true"
+                                show-page-size-nav="false"
+                                show-first-last="true"
+                                show-gap="true"
+                                sr-text-first="اول"
+                                sr-text-last="صفحه آخر"
+                                sr-text-previous="قبلی"
+                                query-string-key-page-no="page"
+                                query-string-key-page-size="pageSize"
+                                class-page-link="bg-dark text-warning border-secondary"
+                                class-disabled-jumping-button="bg-dark text-secondary border-secondary"
+                                class-active-page="bg-warning text-dark"></paging>
+                    </div>
+                </div>
+                <!--shop toolbar end-->
+                <!--shop wrapper end-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+
+        $(document).ready(function () {
+            $('.productFilterUl').each(function() {
+                var max = 6;
+                if ($(this).find('li').length > max) {
+                    $(this).find('li:gt(' + max + ')').hide().end().append('<li class="sub_accordian "><span class="show_more badge bg-success">(بیشتر)</span></li>');
+                    $('.sub_accordian').click( function(){
+                        $(this).siblings(':gt('+max+')').toggle();
+                        if ( $('.show_more').length ) {
+                            $(this).html('<span class="show_less badge bg-danger">(بستن)</span>');
+                        } else {
+                            $(this).html('<span class="show_more badge bg-success">(بیشتر)</span>');
+                        };
+                    });
+                };
+            });
+        });
+
+        function OrderFilter(order) {
+            location.href = "/product?orderBy="+order.value;
+        }
+
+        function getUrlVars()
+        {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for(var i = 0; i < hashes.length; i++)
+            {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+        function isEmpty(value){
+            return (value == null || value.length === 0);
+        }
+        $( document ).ready(function() {
+            var order = getUrlVars()["orderBy"];
+            console.log(order);
+            if (!isEmpty(order)) {
+                $('#ordering').val(order);
+
+            }
+        });
+       
+    </script>
+
+}

@@ -1,0 +1,96 @@
+﻿@using OnShop.Web.Models
+@model StoreViewModel
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="/">صفحه اصلی</a></li>
+                        @if (string.IsNullOrWhiteSpace(Model.Title))
+                        {
+                            <li>فروشگاه ها</li>
+                        }
+                        else
+                        {
+                            <li><a href="/Store">فروشگاه ها</a></li>
+                            <li>@Model.Title</li>
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="blog_page_section mt-23">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="blog_wrapper">
+                    @if (!string.IsNullOrWhiteSpace(Model.SearchKey))
+                    {
+                        <div class="alert alert-info">جستجو برای : @Model.SearchKey </div>
+                    }
+
+
+                    @if (Model.Stores?.Any() == true)
+                    {
+                        @foreach (var item in Model.Stores)
+                        {
+                            <div class="single_blog">
+                                <div class="blog_thumb">
+                                    <a href="/Store/@(item.Id)"><img src="@(item.BigLogo)" width="356" height="244" alt=""></a>
+                                </div>
+                                <div class="blog_content">
+                                    <h3><a href="/blog/@(item.Id)"><marker key="@(Model.SearchKey)" value="@item.Title"></marker></a></h3>
+                                    <div class="blog_meta">
+                                        <span class="post_date"><i class="fa-calendar fa"></i> @item.CreateDate.ToPersian("yyyy-MM-dd")</span>
+                                        <span class="author"><i class="fa fa-code"></i>  @(item.Code)</span>
+
+                                        @if (!string.IsNullOrWhiteSpace(item.StoreTypeName))
+                                        {
+                                            <span class="category">
+                                                <i class="fa fa-folder-open"></i>
+                                                <a href="/Store/Category/@(item.StoreType)"> @(item.StoreTypeName)</a>
+                                            </span>
+                                        }
+
+                                    </div>
+                                    <div class="blog_desc">
+                                        <p class="text-justify"><marker key="@(Model.SearchKey)" value="@item.Description"></marker></p>
+                                    </div>
+                                    <div class="readmore_button">
+                                        <a href="/Store/@(item.Id)">مشاهده فروشگاه</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="blog_pagination">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="pagination">
+                    <ul>
+                        <li class="current">1</li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li class="next"><a href="#">بعدی</a></li>
+                        <li><a href="#">>></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

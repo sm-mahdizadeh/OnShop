@@ -1,0 +1,30 @@
+﻿@using OnShop.Web.ViewComponents
+@model OnShop.Web.Areas.Store.Models.FirstPageViewModel
+
+<script>
+    var stInfo = {
+        title: '@Model.Store.Title',
+        address: '@Model.Store.Address',
+        phoneNumber: '@Model.Store.PhoneNumber',
+        description:'@Model.Store.Description',
+    }
+</script>
+
+@await Component.InvokeAsync("GetFirstPage",new GetFirstPageParam{StoreId =Model?.Store?.Id })
+
+@section Scripts
+{
+    <script>
+        $(function() {
+            if (stInfo.phoneNumber != null) {
+                $(".stPhoneNumber").html(stInfo.phoneNumber);
+            }
+            if (stInfo.title != null) {
+                $(".stTitle").html(stInfo.title);
+            }
+            if (stInfo.description != null) {
+                $(".stDescription").html(stInfo.description);
+            }
+        });
+    </script>
+}

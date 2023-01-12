@@ -1,0 +1,30 @@
+﻿@model PostCategoryViewModel
+@inject IResourceManager _resourceManager
+
+<div class="box">
+    <div class="box-body">
+        <form asp-action="Edit" asp-controller="PostCategory" asp-area="Admin" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label asp-for="Title" class="control-label"></label>
+                    <div class="input-group">
+                        <input type="text" asp-for="Title" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+            </div>
+            <input type="hidden" asp-for="Id"/>
+            <div class="box-footer text-right">
+                <button class="btn btn-success mr-1 mb-5 pull-right" type="submit">
+                    <span class="fa fa-check-circle"></span>
+                    @_resourceManager[SharedResource.Save]
+                </button>
+                <a asp-action="Index" class="btn btn-danger mb-5  pull-right">
+                    <span class="fa fa-fw fa-undo"></span>
+                    @_resourceManager[SharedResource.Cancel]
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Sample\**" />
+    <Compile Remove="Security\**" />
+    <EmbeddedResource Remove="Sample\**" />
+    <EmbeddedResource Remove="Security\**" />
+    <None Remove="Sample\**" />
+    <None Remove="Security\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Arrangements\Command\" />
+    <Folder Include="Basket\Queries\" />
+    <Folder Include="Orders\Command\" />
+    <Folder Include="Orders\Queries\" />
+    <Folder Include="Payments\Queries\" />
+    <Folder Include="Specifications\Basket\" />
+    <Folder Include="Specifications\Notification\" />
+    <Folder Include="Specifications\Orders\" />
+    <Folder Include="Specifications\User\" />
+    <Folder Include="Stores\Queries\" />
+    <Folder Include="User\Queries\UserAdress\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ardalis.Specification" Version="4.1.0" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="FluentValidation" Version="9.3.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.3.0" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.1" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OnShop.Domain\OnShop.Domain.csproj" />
+    <ProjectReference Include="..\OnShop.Framework\OnShop.Framework.csproj" />
+    <ProjectReference Include="..\OnShop.Resources\OnShop.Resources.csproj" />
+  </ItemGroup>
+
+</Project>

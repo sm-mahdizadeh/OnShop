@@ -1,0 +1,66 @@
+﻿@inject IResourceManager _resourceManager
+@using OnShop.Web.Common
+@model OnShop.Domain.DTOs.QueryList<OnShop.Domain.Orders.Dtos.OrderDetailsDto>
+@{
+    ViewData["Title"] = _resourceManager[SharedResource.OrderDetail];
+}
+
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="/">@_resourceManager[SharedResource.HomePage]</a></li>
+                        <li><a href="#">@_resourceManager[SharedResource.Panel]</a></li>
+                        <li>@_resourceManager[SharedResource.OrderDetail] - @Model.Data.FirstOrDefault()?.OrderId</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="shopping_cart_area mt-32">
+    <div class="container">
+        <div class="row">
+            <div class="col-12" id="tblDiv">
+                <div class="table_desc">
+                    <div class="cart_page table-responsive">
+                        <table class=" text-center">
+
+                            <thead>
+                                <tr>
+                                    <th class="product_thumb">@_resourceManager[SharedResource.Photo]</th>
+                                    <th class="product_name">@_resourceManager[SharedResource.Product]</th>
+                                    <th class="product_name">@_resourceManager[SharedResource.Category]</th>
+                                    <th class="product-price">@_resourceManager[SharedResource.Price] </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Data)
+                                {
+                                    <tr>
+
+                                        <td class="product_thumb">
+                                            <a target="_blank" asp-controller="Product" asp-action="ProductDetail" asp-route-id="@item.ProductId">
+                                                <img src="/@item.ProductImage" alt="@item.ProductId" style="width: 20%;">
+                                            </a>
+                                        </td>
+                                        <td class="product_name text">
+                                            <a target="_blank" asp-controller="Product" asp-action="ProductDetail" asp-route-id="@item.ProductId">
+                                                <strong class="text-primary text-decoration-none">@item.ProductTitle</strong> 
+                                            </a>
+                                        </td>
+                                        <td class="product_total">@item.CategoryName</td>
+                                        <td class="product_total">@item.FinalPrice.ToToman()</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

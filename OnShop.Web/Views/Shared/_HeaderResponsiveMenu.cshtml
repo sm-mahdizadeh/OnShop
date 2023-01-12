@@ -1,0 +1,132 @@
+﻿
+@using System.Security.Claims
+
+<div class="off_canvars_overlay"></div>
+<div class="Offcanvas_menu canvas_padding  color_scheme_2">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="canvas_open">
+                    <span>منو اصلی</span>
+                    <a><i class="ion-navicon"></i></a>
+                </div>
+                <div class="Offcanvas_menu_wrapper">
+
+                    <div class="canvas_close">
+                        <a href="#"><i class="ion-android-close"></i></a>
+                    </div>
+
+
+                    <div class="top_right text-right">
+                        <ul>
+                            @{
+                                System.Diagnostics.Debug.Assert(User.Identity != null, "User.Identity != null");
+                            }
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="top_links">
+                                    <a href="#"><i class="ion-android-person"></i>&nbsp; @User.Identity.Name <i class="ion-ios-arrow-down"></i></a>
+                                    <ul class="dropdown_links">
+                                        <li><a href="~/panel/profile/index"><i class="fa fa-user-circle"></i>&nbsp;حساب کاربری</a></li>
+                                        <li><a  href="~/cart"><i class="fa fa-shopping-basket"></i>&nbsp;سبد خرید</a></li>
+                                        @if (User.HasClaim(ClaimTypes.Role, "Admin"))
+                                        {
+                                            <li><a href="~/admin/home/index"><i class="fa fa-tasks"></i>&nbsp;پنل مدیریت </a></li>
+
+                                        }
+                                        <li><a asp-action="LogOut" asp-controller="Account"><i class="fa fa-sign-out"></i>&nbsp;خروج</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="language">
+                                    <a href="#"><i class="ion-android-person"></i>&nbsp;ورود / ثبت نام<i class="ion-ios-arrow-down"></i></a>
+                                    <ul class="dropdown_language">
+                                        <li><a asp-action="Login" asp-controller="Account"><i class="fa fa-sign-in"></i>&nbsp; ورود</a></li>
+                                        <li><a asp-action="Register" asp-controller="Account"><i class="fa fa-registered"></i>&nbsp;ثبت نام</a></li>
+                                    </ul>
+                                </li>
+                            }
+
+
+
+                        </ul>
+                    </div>
+                    <div class="Offcanvas_follow">
+                        <label>دنبال کردن:</label>
+                        <ul class="follow_link">
+                            <li><a href="#"><i class="ion-social-facebook"></i></a></li>
+                            <li><a href="#"><i class="ion-social-twitter"></i></a></li>
+                            <li><a href="#"><i class="ion-social-googleplus"></i></a></li>
+                            <li><a href="#"><i class="ion-social-youtube"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="search-container">
+                        <form action="#">
+                            <div class="search_box">
+                                <input placeholder="عنوان موردنظر را جستجو کنید..." type="text">
+                                <button type="submit"><i class="ion-ios-search-strong"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="menu" class="text-left ">
+                        <ul class="offcanvas_main_menu">
+                            <li class="menu-item-has-children">
+                                <a asp-action="Index" asp-controller="Home">صفحه اصلی</a>
+                                @*<ul class="sub-menu">
+                <li><a href="index.html"> 1 صفحه اصلی</a></li>
+                <li><a href="index-2.html"> 2 صفحه اصلی</a></li>
+                <li><a href="index-3.html"> 3 صفحه اصلی</a></li>
+                <li><a href="index-4.html"> 4 صفحه اصلی</a></li>
+                <li><a href="index-5.html"> 5 صفحه اصلی</a></li>
+                <li><a href="index-6.html"> 6 صفحه اصلی</a></li>
+                <li><a href="index-7.html"> 7 صفحه اصلی</a></li>
+            </ul>*@
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a asp-action="Index" asp-controller="Product">فروشگاه</a>
+                            </li>
+                            @*<li class="menu-item-has-children">
+            <a href="#">وبلاگ</a>
+            <ul class="sub-menu">
+                <li><a href="blog.html">وبلاگ</a></li>
+                <li><a href="blog-details.html">جزئیات وبلاگ</a></li>
+                <li><a href="blog-fullwidth.html">وبلاگ تمام صفحه</a></li>
+                <li><a href="blog-sidebar.html">وبلاگ با نوار کناری</a></li>
+            </ul>
+
+        </li>
+        <li class="menu-item-has-children">
+            <a href="#">صفحات</a>
+            <ul class="sub-menu">
+                <li><a href="about.html">درباره ما</a></li>
+                <li><a href="services.html">خدمات</a></li>
+                <li><a href="faq.html">سوالات متداول</a></li>
+                <li><a href="login.html">ورود</a></li>
+                <li><a href="compare.html">مقایسه کنید</a></li>
+                <li><a href="privacy-policy.html">سیاست حریم خصوصی</a></li>
+                <li><a href="coming-soon.html">به زودی</a></li>
+            </ul>
+        </li>*@
+                            <li class="menu-item-has-children">
+                                <a href="my-account.html">حساب من</a>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="/blog">بلاگ</a>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="about.html">درباره ما</a>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="contact.html">ارتباط با ما</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

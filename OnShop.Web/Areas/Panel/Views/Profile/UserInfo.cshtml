@@ -1,0 +1,120 @@
+﻿@inject IResourceManager _resourceManager
+@using System.Security.Claims
+@model OnShop.Domain.User.Dtos.ApplicationUserInfoDto
+@{
+    var readOnly = Model.IsUpdated ? "readonly" : "false";
+}
+
+@{
+    ViewData["Title"] = _resourceManager[SharedResource.AccountInfo];
+}
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="/">@_resourceManager[SharedResource.HomePage]</a></li>
+                        <li><a href="#">@_resourceManager[SharedResource.Panel]</a></li>
+                        <li>@_resourceManager[SharedResource.AccountInfo]</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="main_content_area">
+    <div class="container">
+        <div class="account_dashboard">
+            <div class="row">
+                <partial name="_sidebar" />
+                <div class="col-sm-12 col-md-9 col-lg-9">
+
+                    <div class="tab-content dashboard_content">
+                        <div class="tab-pane show active" id="account-details">
+                            <h3>@_resourceManager[SharedResource.AccountInfo]</h3>
+                            <div class="login">
+                                <div class="login_form_container">
+                                    <div class="account_login_form">
+                                        <form asp-action="UserInfo" asp-controller="Profile" method="post">
+                                            <div class="row">
+                                                <div class="input-radio">
+                                                    <label asp-for="GenderString"></label>
+                                                    <input id="Male" type="radio" asp-for="GenderString" value="Male" /><label for="Male">مرد</label>
+                                                    <input id="Female" type="radio" asp-for="GenderString" value="Female" /> <label for="Female">زن</label>
+                                                    <span asp-validation-for="GenderString" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <label asp-for="FirstName"></label>
+                                                    <input asp-for="FirstName" type="text" class="form-control" placeholder="@_resourceManager[SharedResource.FirstName]" aria-describedby="email-address">
+                                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <label asp-for="LastName"></label>
+                                                    <input asp-for="LastName" type="text" class="form-control" placeholder="@_resourceManager[SharedResource.LastName]" aria-describedby="email-address">
+                                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <label asp-for="NationalCode"></label>
+                                                    <input asp-for="NationalCode" type="number" class="form-control" placeholder="@_resourceManager[SharedResource.NationalCode]" aria-describedby="email-address">
+                                                    <span asp-validation-for="NationalCode" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="form-group">
+
+                                                    <label asp-for="Birthdate"></label>
+                                                    <input id="birthdatePicker" asp-for="Birthdate" type="date" class="form-control" placeholder="@_resourceManager[SharedResource.Birthdate]" aria-label="date2">
+                                                    <span asp-validation-for="Birthdate" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <input type="hidden" asp-for="ApplicationUserId" />
+                                            <input type="hidden" asp-for="IsUpdated" />
+                                            <div class="row">
+                                                <div class="login_submit">
+                                                    <button class="btn btn-outline-success" type="submit">
+                                                        <span class="fa fa-check-circle"></span>
+                                                        @_resourceManager[SharedResource.Save]
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script>
+        $('document').ready(function() {
+            $("a").removeClass("active");
+            $("#userInfo").addClass("active");
+
+            @*if ('@Model.IsUpdated' == true) {
+                $("#NationalCode").attr('readonly', 'readonly');
+            }*@
+        });
+
+
+    </script>
+
+}

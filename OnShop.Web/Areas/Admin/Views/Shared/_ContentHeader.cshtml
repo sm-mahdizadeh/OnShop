@@ -1,0 +1,32 @@
+﻿@{
+    var header = (Dictionary<string, string>)ViewData["PageHeader"];
+}
+<div class="content-header">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="page-title">@ViewData["PageTitle"] </h3>
+            <div class="d-inline-block align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-area="Admin" asp-controller="Home" asp-action="Index">
+                                <i class="mdi mdi-home-outline"></i>
+                            </a>
+                        </li>
+                        @if (header != null)
+                        {
+                            foreach (var item in header.Reverse())
+                            {
+                                <li class="breadcrumb-item" aria-current="page">
+                                    <a href="@item.Value">
+                                        @item.Key
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

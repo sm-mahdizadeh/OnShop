@@ -1,0 +1,30 @@
+﻿@using OnShop.Web.ViewComponents
+@using OnShop.Domain.Enum;
+@model IReadOnlyList<OnShop.Domain.Arrangements.Dtos.ArrangementGetDto>
+@{
+    var dic = new Dictionary<ArrangementItems, string> {
+        { ArrangementItems.Slider,nameof(Slider)},
+        { ArrangementItems.ProductSmallFavorite,nameof(ProductList)},
+        { ArrangementItems.ProductSmallMoreSell,nameof(ProductList)},
+        { ArrangementItems.ProductSmallMoreView,nameof(ProductList)},
+        { ArrangementItems.ProductSmallNew,nameof(ProductList)},
+        { ArrangementItems.ProductSmallOff,nameof(ProductList)},
+        { ArrangementItems.ProductBigFavorite,nameof(ProductList)},
+        { ArrangementItems.ProductBigMoreSell,nameof(ProductList)},
+        { ArrangementItems.ProductBigMoreView,nameof(ProductList)},
+        { ArrangementItems.ProductBigNew,nameof(ProductList)},
+        { ArrangementItems.ProductBigOff,nameof(ProductList)},
+        { ArrangementItems.Brand,nameof(Brand)},
+    };
+}
+
+@foreach (var item in Model)
+{
+    if (dic.TryGetValue(item.Type, out var componentName))
+    {
+        @*@await Component.InvokeAsync(componentName)*@
+    @await Component.InvokeAsync(componentName, new InvokeRequest {Type= item.Type,StoreId= item.StoreId,TargetId= item.TargetId })
+    }
+else
+{ <p>@item.Type</p>}
+}

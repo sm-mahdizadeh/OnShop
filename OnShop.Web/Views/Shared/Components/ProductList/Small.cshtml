@@ -1,0 +1,70 @@
+﻿@using OnShop.Web.Models 
+@model ProductListViewModel
+<section class="product_area mb-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section_title">
+                    <h2><span> @Model.Title</span></h2>
+                </div>
+                <div class="product_carousel product_column5 owl-carousel">
+                    @foreach (var product in Model.Products)
+                    {
+                        <div class="single_product">
+                            <div class="product_name">
+                                <h3><a target="_blank" href="/product/productDetail/@product.Id">@product.Title</a></h3>
+                                <p class="manufacture_product"><a href="#"> @product.CategoryName </a></p>
+                            </div>
+                            <div class="product_thumb">
+                                <a class="primary_img" target="_blank" href="/product/productDetail/@product.Id"><img src="@(product.ImageSrc.FirstOrDefault())" alt=""></a>
+                                @if (product.ImageSrc.Count > 0)
+                                {
+                                    <a class="secondary_img" target="_blank" href="/product/productDetail/@product.Id"><img src="@(product.ImageSrc.Skip(1).FirstOrDefault())" alt=""></a>
+                                }
+                                @if (product.Discount > 0)
+                                {
+                                    <div class="label_product">
+                                        <span class="label_sale">@product.Discount%-</span>
+                                    </div>
+                                }
+                                
+
+                                <div class="action_links">
+                                    <ul>
+                                        <li class="quick_button"><a href="" data-toggle="modal" data-target="#modal_box" title="نمایش جزئیات"> <span class="lnr lnr-magnifier"></span></a></li>
+                                        <li class="wishlist"><a href="" title="افزودن علاقه مندی ها"><span class="lnr lnr-heart"></span></a></li>
+                                        <li class="مقایسه کنید"><a href="" title="مقایسه کنید"><span class="lnr lnr-sync"></span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="product_content">
+                               @*<ProductStar Rate="@product.Star"/>*@
+                                <div class="product_footer d-flex align-items-center">
+                                    <div class="price_box">
+                                        @if (product.Quantity > 0)
+                                        {
+                                            <span class="current_price">@product.CurrentPrice.ToToman()</span>
+                                            @if (product.Price > 0)
+                                            {
+                                                <span class="old_price text-muted">@product.OldPrice.ToToman()</span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class="current_price">@product.Available</span>
+                                        }
+
+                                    </div>
+                                    <div class="add_to_cart">
+                                        <a href="/Cart/AddToBasket/@product.Id" title="افزودن به سبد خرید"><span class="lnr lnr-cart"></span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

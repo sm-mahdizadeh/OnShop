@@ -1,0 +1,89 @@
+﻿@model IReadOnlyList<OnShop.Domain.Product.Dtos.Categories.GetCategoryDto>
+@inject IResourceManager _resourceManager
+
+
+<div class="row">
+
+    <div class="col-12">
+        <div class="box">
+            <div class="box-header">
+                @*<CreateButton area="Admin" controller="Category" />*@
+                <h4 class="box-title">@_resourceManager[SharedResource.Category]</h4>
+            </div>
+            <div class="box-body">
+                <div class="clearfix">
+                    <a class="btn btn-success btn-flat mb-5" asp-area="Admin" asp-controller="Category" asp-action="Create">
+                        <i class="fa fa-plus"></i>
+                        @_resourceManager[SharedResource.Add]
+                    </a>
+                </div>
+                <div class="table-responsive ">
+                    <table id="categoryTable" class="table table-striped table-sm table-bordered table-hover  dt-responsive nowrap display text-center"
+                           style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>@_resourceManager[SharedResource.Title]</th>
+                                <th>@_resourceManager[SharedResource.Icon]</th>
+                                <th>@_resourceManager[SharedResource.Parent]</th>
+                                <th>@_resourceManager[SharedResource.Operation]</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        function Delete(id) {
+            DeleteItem("/Admin/Category/Delete", id);
+        }
+
+        $(document).ready(function() {
+            $('#categoryTable').dataTable({
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "orderMulti": false,
+                "ajax": {
+                    "url": "/Admin/Category/List",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columnDefs": [
+                    {
+                        "visible": false,
+                        "searchable": false,
+                    }
+                ],
+                "columns": [
+                    {
+                        "render": function ( data, type, full, meta ) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    { "data": "Title", "name": "@_resourceManager[SharedResource.Title]", "autoWidth": true },
+                    {
+                        "orderable": false
+                        ,  "render": function (data, type, row) {
+                            return `<span class='fa ${row.Icon}'></span>`;
+                        }
+                    },
+                    { "data": "ParentName", "name": "@_resourceManager[SharedResource.Parent]", "autoWidth": true },
+                    {
+                        "orderable": false
+                        ,"render": function(data, type, row) {
+                            return `<a href='/Admin/Category/Edit/${row.Id}' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></a>&nbsp;&nbsp;<button class='btn  btn-danger btn-xs' onclick=Delete(${row.Id}); id='btnBrandDelete'  ><i class='fa fa-remove'></i></button>`;
+                        },
+                    }
+                ]
+            });
+        });
+
+    </script>
+
+}

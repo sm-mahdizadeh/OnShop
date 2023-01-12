@@ -1,0 +1,61 @@
+﻿@model StoreDetailsViewModel
+@inject IResourceManager _resourceManager
+
+<div class="box">
+    <div class="box-header">
+        <span class="pull-right">
+            <a asp-action="Edit" class="btn btn-info  ">
+                <span class="fa  fa-edit"></span>
+                ویرایش اطلاعات
+            </a>
+            <a href="@Model.StoreUrl" class="btn btn-warning">
+                <span class="fa  fa-eye"></span>
+                مشاهده فروشگاه
+            </a>
+        </span>
+    </div>
+    <div class="box-body">
+        <div class="form-group row">
+            <div class="col-md-6">
+                <label asp-for="Code" class="control-label"></label>
+                <div class="input-group">
+                    <input value="@Model.Code    @Model.Id" class="form-control" readonly="readonly"/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="Title" class="control-label"></label>
+                <div class="input-group">
+                    <input type="text" asp-for="Title" class="form-control" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-6">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <div class="input-group">
+                    <input type="text" asp-for="PhoneNumber" class="form-control" readonly="readonly"/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="Description" class="control-label"></label>
+                <div class="input-group">
+                    <input type="text" asp-for="Description" class="form-control" readonly="readonly"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-6">
+                <label asp-for="ProductCount" class="control-label"></label> <a href="@Model.StoreUrl" class="btn btn-sm btn-info pull-right" title="مشاهده محصولات"><i class="fa fa-eye"></i></a>
+                <div class="input-group">
+                    <input type="text" asp-for="ProductCount" class="form-control" readonly="readonly"/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="PostCount" class="control-label"></label> <a href="/Blog" class="btn btn-sm btn-info pull-right" title="مشاهده وبلاگ"><i class="fa fa-eye"></i></a>
+                <div class="input-group">
+                    <input type="text" asp-for="PostCount" class="form-control" readonly="readonly"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

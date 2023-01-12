@@ -1,0 +1,45 @@
+﻿@model OnShop.Domain.DTOs.Site.Products.ProductFilters
+@inject IResourceManager _resourceManager
+
+<aside class="sidebar_widget">
+    <div class="widget_inner">
+        <form method="get" asp-controller="Product" asp-action="Index">
+            <div class="widget_list widget_categories">
+                <h2>@_resourceManager[SharedResource.Categories]</h2>
+                <ul class="productFilterUl">
+                    @foreach (var item in Model.Categories)
+                    {
+                        <li>
+                            <input type="checkbox">
+                            <a href="#"> @item.Title</a>
+                            <span class="checkmark"></span>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="widget_list widget_categories">
+                <h2>@_resourceManager[SharedResource.Brand]</h2>
+                <ul class="productFilterUl">
+                    @foreach (var item in Model.Brands)
+                    {
+                        <li>
+                            <input type="checkbox">
+                            <a href="#"> @item.Title</a>
+                            <span class="checkmark"></span>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="widget_list widget_categories">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" asp-for="Available">
+                    <label class="form-check-label" asp-for="Available">
+                    </label>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</aside>
+

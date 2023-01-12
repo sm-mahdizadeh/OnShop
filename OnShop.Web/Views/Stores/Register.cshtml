@@ -1,0 +1,53 @@
+﻿@inject IResourceManager _resourceManager
+@model OnShop.Web.Models.StoreRegisterViewModel
+@{
+    ViewData["Title"] = "فروشگاه من";
+}
+
+<div class="container">
+    <div class="box-body">
+        <form asp-action="Register" asp-controller="Stores" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label asp-for="Title" class="control-label"></label>
+                    <div class="input-group">
+                        <input type="text" asp-for="Title" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="col-md-12">
+                    <label asp-for="Description" class="control-label"></label>
+                    <div class="input-group">
+                        <input type="text" asp-for="Description" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="col-md-12">
+                    <label asp-for="Address" class="control-label"></label>
+                    <div class="input-group">
+                        <input type="text" asp-for="Address" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="col-md-12">
+                    <label asp-for="Phone" class="control-label"></label>
+                    <div class="input-group">
+                        <input type="text" asp-for="Phone" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <button class="btn btn-success mr-1 mb-5 pull-right" type="submit">
+                    <span class="fa fa-check-circle"></span>
+                    @_resourceManager[SharedResource.Save]
+                </button>
+                <a asp-action="Index" class="btn btn-danger mb-5  pull-right">
+                    <span class="fa fa-fw fa-undo"></span>
+                    @_resourceManager[SharedResource.Cancel]
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

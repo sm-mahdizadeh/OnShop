@@ -1,0 +1,318 @@
+﻿@using OnShop.Framework.Dtos
+@model ResultDto<OnShop.Domain.Blogs.Dtos.PostGetQueryDto>
+    <!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="/">صفحه اصلی</a></li>
+                        <li><a href="/Blog">وبلاگ</a></li>
+                        @if (!string.IsNullOrWhiteSpace(Model.Data.CategoryTitle))
+                        {
+                            <li><a href="/Blog/Category/@(Model.Data.Id)">@(Model.Data.CategoryTitle)</a></li>
+                        }
+                        <li>@Model.Data.Title</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs area end-->
+<!--blog body area start-->
+<div class="blog_details blog_padding mt-23">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 col-md-12">
+                <!--blog grid area start-->
+                <div class="blog_details_wrapper">
+                    <div class="blog_thumb">
+                        <a href="/Blog/@(Model.Data.Id)">
+                            <img src="/@(Model.Data.Image)" alt="" />
+                        </a>
+                    </div>
+                    <div class="blog_content">
+                        <h3 class="post_title">@(Model.Data.Title)</h3>
+                        <div class="post_meta">
+                            <span><i class="ion-person"></i> پست شده توسط</span>
+                            <span><a href="#"> مدیر</a></span>
+                            <span>|</span>
+                            <span>
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                @Model.Data.CreateDate.ToPersian("d MMMM yyyy")
+                            </span>
+                        </div>
+                        <div class="post_content">
+                            @Html.Raw(Model.Data.Content)
+                        </div>
+                        <div class="entry_content">
+                            <div class="post_meta">
+                                <span>برچسب ها:</span>
+                                @if (!string.IsNullOrEmpty(Model.Data.Tages))
+                                {
+                                    @foreach (var tag in Model.Data.Tages.Split(","))
+                                    {
+                                        <span><a href="#">@tag</a></span>
+
+                                    }
+                                }
+
+
+                            </div>
+
+                            <div class="social_sharing">
+                                <h3>اشتراک گذاری این پست</h3>
+                                <ul>
+                                    <li>
+                                        <a href="#" title="facebook">
+                                            <i class="fa fa-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="twitter">
+                                            <i class="fa fa-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="pinterest">
+                                            <i class="fa fa-pinterest"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="google+">
+                                            <i class="fa fa-google-plus"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="linkedin">
+                                            <i class="fa fa-linkedin"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.Data.Related != null)
+                    {
+                        <div class="related_posts">
+                            <h3>مطالب مرتبط</h3>
+                            <div class="row">
+                                @foreach (var item in Model.Data.Related)
+                                {
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="single_related">
+                                            <div class="related_thumb">
+                                                <img src="/@item.Image" alt="@item.Title" width="150" height="150" />
+                                            </div>
+                                            <div class="related_content">
+                                                <h3><a href="/blog/@(item.Id)">@item.Title</a></h3>
+                                                <span>
+                                                    <i class="fa fa-calendar" aria-hidden="true"></i>5
+                                                    @item.CreateDate.ToPersian()
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                }
+
+                            </div>
+                        </div>
+                    }
+
+                    <div class="comments_box">
+                        <h3>3 نظر</h3>
+                        <div class="comment_list">
+                            <div class="comment_thumb">
+                                <img src="assets/img/blog/comment3.png.jpg" alt="" />
+                            </div>
+                            <div class="comment_content">
+                                <div class="comment_meta">
+                                    <h5><a href="#">مدیر</a></h5>
+                                    <span>10 خرداد, در 2 عصر</span>
+                                </div>
+                                <p>
+                                    این یک متن تستی برای نظردهی است امیدواریم نظرات ارزشمندتان
+                                    را با ما در میان بگذارید!
+                                </p>
+                                <div class="comment_reply">
+                                    <a href="#">پاسخ</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment_list list_two">
+                            <div class="comment_thumb">
+                                <img src="assets/img/blog/comment3.png.jpg" alt="" />
+                            </div>
+                            <div class="comment_content">
+                                <div class="comment_meta">
+                                    <h5><a href="#">زینب</a></h5>
+                                    <span>10 خرداد, در 2 عصر</span>
+                                </div>
+                                <p>
+                                    این یک متن تستی برای نظردهی است امیدواریم نظرات ارزشمندتان
+                                    را با ما در میان بگذارید!
+                                </p>
+                                <div class="comment_reply">
+                                    <a href="#">پاسخ</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment_list">
+                            <div class="comment_thumb">
+                                <img src="assets/img/blog/comment3.png.jpg" alt="" />
+                            </div>
+                            <div class="comment_content">
+                                <div class="comment_meta">
+                                    <h5><a href="#">مدیر</a></h5>
+                                    <span>10 خرداد, در 2 عصر</span>
+                                </div>
+                                <p>
+                                    این یک متن تستی برای نظردهی است امیدواریم نظرات ارزشمندتان
+                                    را با ما در میان بگذارید!
+                                </p>
+                                <div class="comment_reply">
+                                    <a href="#">پاسخ</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comments_form">
+                        <h3>دیدگاهتان را با ما در میان بگذارید</h3>
+                        <p>
+                            ما هرگز آدرس ایمیل شما را با شخص ثالث به اشتراک نمی گذاریم
+                        </p>
+                        <form action="#">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="review_comment">نظر </label>
+                                    <textarea name="comment" id="review_comment"></textarea>
+                                </div>
+                                <div class="col-lg-4 col-md-4">
+                                    <label for="author">نام</label>
+                                    <input id="author" type="text" />
+                                </div>
+                                <div class="col-lg-4 col-md-4">
+                                    <label for="email">ایمیل </label>
+                                    <input id="email" type="text" />
+                                </div>
+                                <div class="col-lg-4 col-md-4">
+                                    <label for="website">وب سایت </label>
+                                    <input id="website" type="text" />
+                                </div>
+                            </div>
+                            <button class="button" type="submit">ارسال نظر</button>
+                        </form>
+                    </div>
+                </div>
+                <!--blog grid area start-->
+            </div>
+            <div class="col-lg-3 col-md-12">
+                <div class="blog_sidebar_widget">
+                    <div class="widget_list widget_search">
+                        <h3>جستجو</h3>
+                        <form action="/Blog" method="get">
+                            <input id="key" name="key" placeholder="جستجو..." type="text" />
+                            <button type="submit">جستجو</button>
+                        </form>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.Data.Tages))
+                    {
+                        <div class="widget_list widget_tag">
+                            <h3>برچسب محصولات</h3>
+                            <div class="tag_widget">
+                                <ul>
+                                    @foreach (var tag in Model.Data.Tages.Split(","))
+                                    {
+                                        <li><a href="">@tag</a></li>
+
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="widget_list widget_post">
+                        <h3>مطالب اخیر</h3>
+                        @if (Model.Data.LastPost != null)
+                        {
+                            @foreach(var item in Model.Data.LastPost)
+                            {
+                                <div class="post_wrapper">
+                                    <div class="post_thumb">
+                                        <a href="/blog/@(item.Id)">
+                                            <img src="/@item.Image" alt="@item.Title" />
+                                        </a>
+                                    </div>
+                                    <div class="post_info">
+                                        <h3><a href="/blog/@(item.Id)">@item.Title</a></h3>
+                                        <span> @item.CreateDate.ToPersian()  </span>
+                                    </div>
+                                </div>
+                            }
+                        }
+                            
+
+                    </div>
+
+                    <div class="widget_list comments_post">
+                        <h3>نظرات</h3>
+                        <div class="post_wrapper">
+                            <div class="post_thumb">
+                                <a href="blog-details.html">
+                                    <img src="assets/img/blog/comment.png" alt="" />
+                                </a>
+                            </div>
+                            <div class="post_info">
+                                <span>قاسم گفته:</span>
+                                <a href="blog-details.html">لورم ایپسوم متن ساختگی</a>
+                            </div>
+                        </div>
+                        <div class="post_wrapper">
+                            <div class="post_thumb">
+                                <a href="blog-details.html">
+                                    <img src="assets/img/blog/comment.png" alt="" />
+                                </a>
+                            </div>
+                            <div class="post_info">
+                                <span>مدیر گفته:</span>
+                                <a href="blog-details.html">لورم ایپسوم متن ساختگی</a>
+                            </div>
+                        </div>
+                        <div class="post_wrapper">
+                            <div class="post_thumb">
+                                <a href="blog-details.html">
+                                    <img src="assets/img/blog/comment.png" alt="" />
+                                </a>
+                            </div>
+                            <div class="post_info">
+                                <span>قاسم گفته:</span>
+                                <a href="blog-details.html">لورم ایپسوم متن ساختگی</a>
+                            </div>
+                        </div>
+                        <div class="post_wrapper">
+                            <div class="post_thumb">
+                                <a href="blog-details.html">
+                                    <img src="assets/img/blog/comment.png" alt="" />
+                                </a>
+                            </div>
+                            <div class="post_info">
+                                <span>مدیر گفته:</span>
+                                <a href="blog-details.html">لورم ایپسوم متن ساختگی</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget_list widget_categories">
+                        <h3>دسته بندی</h3>
+                        <ul>
+                            <li><a href="#">@Model.Data.CategoryTitle</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--blog section area end-->

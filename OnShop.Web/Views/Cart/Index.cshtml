@@ -1,0 +1,171 @@
+﻿@using OnShop.Web.Common
+@model OnShop.Domain.Basket.Dtos.CartDto
+@inject IResourceManager _resourceManager
+@{
+    ViewData["Title"] = _resourceManager[SharedResource.YourCart];
+}
+@if (Model != null && Model.CartItemDtos.Count > 0)
+{
+    <div class="shopping_cart_area mt-32">
+        <div class="container">
+            <form id="cartForm">
+                <div class="row">
+                    <div class="col-12" id="tblDiv">
+                        <div class="table_desc">
+                            <div class="cart_page table-responsive">
+                                <table class=" text-center">
+
+                                    <thead>
+                                        <tr>
+                                            <th class="product_remove">@_resourceManager[SharedResource.Remove] </th>
+                                            <th class="product_thumb">@_resourceManager[SharedResource.Photo]</th>
+                                            <th class="product_name">@_resourceManager[SharedResource.Product]</th>
+                                            <th class="product-price">@_resourceManager[SharedResource.Price] </th>
+                                            <th class="product_quantity">@_resourceManager[SharedResource.Quantity]</th>
+                                            <th class="product_total">@_resourceManager[SharedResource.Total]</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.CartItemDtos)
+                                        {
+                                            <tr>
+                                                <td class="product_remove">
+                                                    <a onclick="Delete(@item.CartItemId)"><i class="fa fa-trash-o"></i></a>
+                                                </td>
+                                                <td class="product_thumb">
+                                                    <a target="_blank" asp-controller="Product" asp-action="ProductDetail" asp-route-id="@item.ProductId">
+                                                        <img src="/@item.ImageSrc" alt="@item.ProductCode" style="width: 50%;">
+                                                    </a>
+                                                </td>
+                                                <td class="product_name">
+
+                                                    <a target="_blank" asp-controller="Product" asp-action="ProductDetail" asp-route-id="@item.ProductId">
+                                                        @item.ProductName
+                                                    </a>
+                                                </td>
+                                                <td class="product-price">@((item.Price/item.Count).ToToman())</td>
+                                                <td class="product_quantity">
+                                                    <input min="1" max="100" style="text-align: center" class="form-control" value="@item.Count" id="count-@item.CartItemId" onchange="UpdateCount(@item.CartItemId)" type="number">
+                                                </td>
+                                                <td class="product_total">@item.Price.ToToman()</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="coupon_area">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="coupon_code left">
+                                <h3>کد تخفیف</h3>
+                                <div class="coupon_inner">
+                                    <p>اگر کد تخفیفی دارید آن را وارد کنید</p>
+                                    <input placeholder="کد تخفیف" type="text">
+                                    <button type="submit">اعمال کد تخفیف</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="coupon_code right">
+                                <h3>@_resourceManager[SharedResource.TotalBasket]</h3>
+                                <div class="coupon_inner">
+                                    <div class="cart_subtotal">
+                                        <p>@($"قیمت کالاها ({Model.CartItemDtos.Sum(x=>x.Count)})") </p>
+                                        <p class="cart_amount">@Model.CartItemDtos.Sum(x => x.Price).ToToman()</p>
+                                    </div>
+                                    @if (Model.CartItemDtos.Sum(x => x.PriceDiscount) > 0)
+                                    {
+                                        <div class="cart_subtotal ">
+                                            <p class="text-danger">@_resourceManager[SharedResource.ProductDiscount]</p>
+                                            <p class="cart_amount text-danger">@Model.CartItemDtos.Sum(x => x.PriceDiscount).ToToman()</p>
+                                        </div>
+                                    }
+                                    <hr />
+                                    <div class="cart_subtotal">
+                                        <p>@_resourceManager[SharedResource.Total]</p>
+                                        <p class="cart_amount"> @Model.CartItemDtos.Sum(x => x.FinalPrice).ToToman()</p>
+                                    </div>
+                                    <div class="checkout_btn">
+                                        <a href="/shipping">@_resourceManager[SharedResource.ContinueSale]</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div class="error_section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="error_form">
+                        <h1><i class="fa fa-shopping-basket"></i></h1>
+                        <h2>سبد خرید شما خالی است!</h2>
+                        <br />
+                        <h5>می‌توانید برای مشاهده محصولات بیشتر به صفحات زیر بروید</h5>
+                        <a asp-action="Index" asp-controller="Product"> بازگشت به فروشگاه </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts
+{
+    <script>
+        function UpdateCount(id) {
+            var postData = {
+                'id': id,
+                'count': $("#count-" + id).val()
+            };
+            BlockUI('#cartForm');
+            $.ajax({
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: 'json',
+                type: "POST",
+                url: '/Cart/UpdateCartItem/',
+                data: postData,
+                success: function (data) {
+                    if (data.IsSuccess === true) {
+                        Swal.fire(
+                            'موفق!',
+                            data.Message,
+                            'success'
+                        ).then(function () {
+                            location.reload();
+                        });
+                    }
+                    else {
+                        Swal.fire(
+                            'هشدار!',
+                            data.Message,
+                            'warning'
+                        );
+                        UnBlockUI('#cartForm');
+                    }
+                },
+                error: function (request, status, error) {
+                    UnBlockUI('#cartForm');
+                    alert(request.responseText);
+                }
+
+            });
+
+
+        }
+
+        function Delete(id) {
+            DeleteSiteItem("/Cart/RemoveCartItem", id, "#cartForm");
+        }
+
+    </script>
+
+}

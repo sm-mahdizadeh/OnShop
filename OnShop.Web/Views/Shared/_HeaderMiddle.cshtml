@@ -1,0 +1,34 @@
+﻿
+<div class="header_middle middle_two color_scheme_2">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-3 col-md-3">
+                <div class="logo">
+                    <a href="/"><img src="~/img/logo/logo.png" alt=""></a>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9">
+                <div class="middel_right">
+                    <div class="search-container search_two">
+                        <form action="/product" method="Get">
+                            <div class="search_box">
+                                <input id="SearchKey" name="SearchKey" placeholder="عنوان موردنظر را جستجو کنید..." type="text">
+                                <button type="submit"><i class="ion-ios-search-strong"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="middel_right_info">
+
+                        <div class="header_wishlist">
+                            <a href="/product"><span class="lnr lnr-heart"></span>فروشگاه</a>
+                            @*<span class="wishlist_quantity">3</span>*@
+                        </div>
+
+                        @await Component.InvokeAsync("LnrCart")
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

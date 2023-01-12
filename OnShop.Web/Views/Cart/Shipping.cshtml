@@ -1,0 +1,84 @@
+﻿@model OnShop.Web.Models.ShippingViewModel
+@inject IResourceManager _resourceManager
+
+@{
+    ViewData["Title"] = _resourceManager[SharedResource.Shipping];
+}
+<form method="post" asp-action="Shipping" asp-controller="Cart">
+    <div class="Checkout_section mt-32">
+        <div class="container">
+            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="user-actions">
+                        <h3 class="text-primary text-md-right">
+                            <i class="fa fa-address-card" aria-hidden="true"></i>
+                            @_resourceManager[SharedResource.Address]
+                            <br />
+                        </h3>
+                        <div class="list-group">
+                            @foreach (var address in Model.UserAddressDtos)
+                            {
+                                <label class="list-group-item" for="UserAddressId-@address.Id">
+                                    <input type="radio" class="form-check-input me-1" asp-for="UserAddressId" id="UserAddressId-@address.Id" value="@address.Id" />
+                                    @address.PostalAddress
+                                </label>
+                            }
+                            <span asp-validation-for="UserAddressId" class="text-danger"></span>
+                        </div>
+
+                    </div>
+                    <div class="user-actions">
+                        <h3 class="text-primary">
+                            <i class="fa fa-send" aria-hidden="true"></i>
+                            @_resourceManager[SharedResource.OrderPostType]
+                        </h3>
+                        <enum-radio-button asp-for="OrderPostType"></enum-radio-button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="user-actions">
+                    <h3 class="text-primary">
+                        <i class="fa fa-cc-paypal" aria-hidden="true"></i>
+                        @_resourceManager[SharedResource.PaymentType]
+                        <br />
+
+                    </h3>
+                    <enum-radio-button asp-for="PaymentType"></enum-radio-button>
+                </div>
+            </div>
+            <div class="checkout_form">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <h3>سبد شما</h3>
+                        <div class="order_table table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>جمع کل</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>@($"جمع کل ({Model.CartPayDto.Count} کالا)")</th>
+                                        <td>@Model.CartPayDto.FinalAmount.ToToman()</td>
+                                    </tr>
+
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <div class="payment_method">
+                            <div class="order_button">
+                                <button type="submit">پرداخت و تکمیل سفارش</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,17 @@
+﻿@inject IResourceManager _resourceManager
+@{
+    ViewData["Title"] = _resourceManager[SharedResource.HomePage];
+}
+
+@*<div id="ajaxLoader">
+        <div style="text-align:center;margin:100px">
+            <img src="~/Admin/assets/vendor_components/OwlCarousel2/dist/assets/ajax-loader.gif" />
+            <br /> <br />
+            <p>در حال بار گذاری ...</p>
+        </div>
+    </div>*@
+
+
+    <partial name="_Shipping" />
+
+@await Component.InvokeAsync("GetFirstPage")

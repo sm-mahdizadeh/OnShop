@@ -1,0 +1,38 @@
+﻿@model OnShop.Domain.DTOs.Site.Products.ResultProductDetailsSiteDto
+
+<div class="product_d_table">
+    <form action="#">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="text-center" colspan="2">
+                        <p class="h5">مشخصات فنی</p>
+
+                        
+                        <p class="h6">@Model.Product.EnglishTitle</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var technical in Model.ProductTechnical)
+                {
+                    <tr>
+                        <td class="first_child"> @technical.Title </td>
+                        <td> @technical.Description</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </form>
+</div>
+@*<div class="product_info_content">
+        <p class="textalign">
+            لورم ايپسوم متن ساختگي با توليد سادگي نامفهوم از صنعت چاپ، و با
+            استفاده از طراحان گرافيک است، چاپگرها و متون بلکه روزنامه و مجله
+            در ستون و سطرآنچنان که لازم است، و براي شرايط فعلي تکنولوژي مورد
+            نياز، و کاربردهاي متنوع با هدف بهبود ابزارهاي کاربردي مي باشد،
+            کتابهاي زيادي در شصت و سه درصد گذشته حال و آينده، شناخت فراوان
+            جامعه و متخصصان را مي طلبد
+        </p>
+    </div>*@

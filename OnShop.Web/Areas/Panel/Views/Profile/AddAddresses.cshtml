@@ -1,0 +1,152 @@
+﻿@inject IResourceManager _resourceManager
+@using System.Security.Claims
+@model OnShop.Domain.User.Dtos.UserAddresses.AddUserAddressesDto
+@{
+    ViewData["Title"] = @_resourceManager[SharedResource.Address];
+}
+
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="/">@_resourceManager[SharedResource.HomePage]</a></li>
+                        <li><a href="">@_resourceManager[SharedResource.Panel]</a></li>
+                        <li><a href="">@_resourceManager[SharedResource.Address]</a></li>
+                        <li>@_resourceManager[SharedResource.Create]</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="Checkout_section mt-32">
+    <div class="container">
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
+        <div class="checkout_form">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <form method="post" asp-action="AddAddresses" asp-controller="Profile" asp-area="Panel">
+                        <div class="row">
+                            <div class="col">
+                                <label asp-for="ZoneId" class="control-label"></label>
+                                <div class="form-group">
+                                    <select asp-for="ZoneId" class="form-control select2" asp-items="@Model.Zones">
+                                    </select>
+                                </div>
+                                <span asp-validation-for="ZoneId" class="text-danger"></span>
+
+                            </div>
+                            <div class="col">
+                                <label asp-for="ProvinceId" class="control-label"></label>
+                                <div class="form-group">
+                                    <select asp-for="ProvinceId" class="form-control select2"
+                                            asp-items="@(new SelectList(string.Empty, "ProvinceId", "ProvinceName"))">
+                                    </select>
+                                </div>
+                                <span asp-validation-for="ProvinceId" class="text-danger"></span>
+
+                            </div>
+                            <div class="col">
+                                <label asp-for="DistrictId" class="control-label"></label>
+                                <div class="form-group">
+                                    <select asp-for="DistrictId" class="form-control select2"
+                                            asp-items="@(new SelectList(string.Empty, "DistrictId", "DistrictIdName"))">
+                                    </select>
+                                </div>
+                                <span asp-validation-for="DistrictId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col">
+                                <label asp-for="PostCode" class="control-label"></label>
+                                <div class="form-group">
+                                    <input type="text" asp-for="PostCode" class="form-control" placeholder="@_resourceManager[SharedResource.PostCode]" />
+                                </div>
+                                <span asp-validation-for="PostCode" class="text-danger"></span>
+                            </div>
+                            <div class="col">
+                                <label asp-for="Plaque" class="control-label"></label>
+                                <div class="form-group">
+                                    <input type="text" asp-for="Plaque" class="form-control" placeholder="@_resourceManager[SharedResource.Plaque]" />
+                                </div>
+                                <span asp-validation-for="Plaque" class="text-danger"></span>
+
+                            </div>
+                            <div class="col">
+                                <label asp-for="Unit" class="control-label"></label>
+                                <div class="form-group">
+                                    <input type="text" asp-for="Unit" class="form-control" placeholder="@_resourceManager[SharedResource.Unit]" />
+                                </div>
+                                <span asp-validation-for="Unit" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col">
+                                <label asp-for="PostalAddress" class="control-label"></label>
+                                <div class="form-group">
+                                    <textarea asp-for="PostalAddress" class="form-control" placeholder="@_resourceManager[SharedResource.PostalAddress]"></textarea>
+                                </div>
+                                <span asp-validation-for="PostalAddress" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                        <br />
+                            <div class="order_button">
+                                <button type="submit">@_resourceManager[SharedResource.Add]</button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var items = "<option value=''>انتخاب کنید</option>";
+            $('#ProvinceId').html(items);
+            $('#DistrictId').html(items);
+        });
+        $(document).ready(function() {
+            $('#ZoneId').change(function () {
+                var url = '@Url.Content("~/")' + "Panel/profile/GetProvinceList";
+                var ddlsource = "#ZoneId";
+                $.getJSON(url, { zoneId: $(ddlsource).val() }, function (data) {
+                    var items = '';
+                    $("#ProvinceId").empty();
+                    $.each(data, function (i, province) {
+                        items += "<option value='" + province.Value + "'>" + province.Text + "</option>";
+                    });
+                    $('#ProvinceId').html(items);
+                });
+            });
+
+
+            $('#ProvinceId').change(function () {
+                var url = '@Url.Content("~/")' + "Panel/profile/GetDistrictList";
+                var ddlsource = "#ProvinceId";
+                $.getJSON(url, { provinceId: $(ddlsource).val() }, function (data) {
+                    var items = '';
+                    $("#DistrictId").empty();
+                    $.each(data, function (i, district) {
+                        items += "<option value='" + district.Value + "'>" + district.Text + "</option>";
+                    });
+                    $('#DistrictId').html(items);
+                });
+            });
+
+
+        });
+    </script>
+}

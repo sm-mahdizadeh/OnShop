@@ -1,0 +1,30 @@
+﻿
+<div class="header_bottom header_b_three color_scheme_2 sticky-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-12">
+                <div class="header_bottom_container">
+                    @await Component.InvokeAsync("GetMenu")
+                    <div class="main_menu">
+                        <nav>
+                            <ul>
+                                <li>
+                                    <a href="/">صفحه اصلی</a>
+                                </li>
+                                <li class="mega_items">
+                                    <a href="/product">فروشگاه</a>
+                                </li>
+                                <li><a href="/blog">بلاگ</a></li>
+                                <li><a href="/about">درباره ما</a></li>
+                                <li><a href="/contact">ارتباط با ما</a></li>
+                                <li><a asp-action="My" asp-controller="Stores">فروشگاه من</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,88 @@
+﻿@inject IResourceManager _resourceManager
+
+
+<div class="row">
+
+    <div class="col-12">
+        <div class="box">
+            <div class="box-header">
+                <a class="btn btn-info pull-right" asp-controller="Stores" asp-action="Index" asp-area="" target="_blank">
+                    <i class="fa fa-eye"></i>
+                    مشاهده فروشگاه ها
+                </a>
+                <a class="btn btn-warning pull-right" asp-controller="Store" asp-action="Details" asp-area="Admin">
+                    <i class="fa fa-info"></i>
+                    فروشگاه من 
+                </a>
+            </div>
+            <div class="box-body">
+                <div class="clearfix">
+                   
+                </div>
+                <div class="table-responsive ">
+                    <table id="storeTable" class="table table-striped table-sm table-bordered table-hover  dt-responsive nowrap display text-center"
+                           style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>کد</th>
+                                <th>@_resourceManager[SharedResource.Title]</th>
+                                <th>لوگو</th>
+                                <th>تاریخ ایجاد</th>
+                                <th>@_resourceManager[SharedResource.Operation]</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        function Delete(id) {
+            Ui.DeleteStore(id);
+        }
+
+        $(document).ready(function() {
+            $('#storeTable').dataTable({
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "orderMulti": false,
+                "ajax": {
+                    "url": "/Admin/Store/List",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columnDefs": [
+                    {
+                        "visible": false,
+                        "searchable": false,
+                    }
+                ],
+                "columns": [
+                    {
+                        "render": function ( data, type, full, meta ) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    { "data": "Code" },
+                    { "data": "Title", "name": "@_resourceManager[SharedResource.Title]", "autoWidth": true },
+                    { "data": "BigLogo" },
+                    { "data": "CreateDate", "name": "CreateDate" },
+                    {
+                        "orderable": false
+                        ,"render": function(data, type, row) {
+                            return `<a href='/Store/${row.Id}' target="_blank" class='btn btn-info btn-xs' title='مشاهده فروشگاه'><i class='fa fa-eye'></i></a>&nbsp;&nbsp;<a href='/Admin/Store/details/${row.Id}' target="_blank" class='btn btn-warning btn-xs' title='اطلاعات فروشگاه'><i class='fa fa-info'></i></a>&nbsp;&nbsp;<a href='/Admin/Store/Edit/${row.Id}' class='btn btn-success btn-xs'><i class='fa fa-edit'></i></a>&nbsp;&nbsp;<button class='btn  btn-danger btn-xs' onclick=Delete(${row.Id});><i class='fa fa-remove'></i></button>`;
+                        },
+                    }
+                ]
+            });
+        });
+
+    </script>
+
+}

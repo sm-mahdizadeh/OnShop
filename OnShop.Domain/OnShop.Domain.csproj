@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Sample\**" />
+    <EmbeddedResource Remove="Sample\**" />
+    <None Remove="Sample\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Basket\Entities\" />
+    <Folder Include="Common\Queries\" />
+    <Folder Include="Basket\Dtos\" />
+    <Folder Include="Orders\Dtos\" />
+    <Folder Include="DTOs\Site\Common\" />
+    <Folder Include="Payments\Commands\" />
+    <Folder Include="Payments\Queries\" />
+    <Folder Include="Orders\Commands\" />
+    <Folder Include="Orders\Entities\" />
+    <Folder Include="Orders\Queries\" />
+    <Folder Include="Orders\Repositories\" />
+    <Folder Include="Product\Repositories\Categories\" />
+    <Folder Include="Slider\Entities\" />
+    <Folder Include="Slider\Repositories\" />
+    <Folder Include="SMS\Commands\" />
+    <Folder Include="SMS\Entities\" />
+    <Folder Include="SMS\Queries\" />
+    <Folder Include="SMS\Repositories\" />
+    <Folder Include="Wallet\Commands\" />
+    <Folder Include="Wallet\Queries\" />
+    <Folder Include="Zone\Commands\" />
+    <Folder Include="Zone\Queries\" />
+    <Folder Include="Zone\Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ardalis.Specification" Version="4.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OnShop.Framework\OnShop.Framework.csproj" />
+    <ProjectReference Include="..\OnShop.Resources\OnShop.Resources.csproj" />
+  </ItemGroup>
+
+</Project>

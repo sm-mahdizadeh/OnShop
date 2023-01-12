@@ -1,0 +1,46 @@
+﻿@using OnShop.Domain.Enum
+@model OnShop.Domain.Orders.Dtos.PaymentResultDto
+@inject IResourceManager _resourceManager
+
+@{
+    ViewData["Title"] = _resourceManager[SharedResource.PaymentResult];
+}
+<div class="Checkout_section mt-32">
+
+    <div class="container">
+        @if (Model.PaymentType == PaymentType.Online)
+        {
+            if (Model.IsPay)
+            {
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">پرداخت با موفقیت انجام گردید.</h4>
+                    <p>شماره فاکتور : @Model.Factor </p>
+                    <p>شناسه پیگیری : @Model.RefId </p>
+                    <hr>
+                    <p class="mb-0">سفارش شما در حال پردازش می باشد، همکاران ما در اسرع وقت با شما تماس خواهند گرفت</p>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">پرداخت با خطا مواجه گردید</h4>
+                    <p>دوباره تلاش نمایید </p>
+                    <hr>
+                    <p class="mb-0">@Model.Message</p>
+                </div>
+            }
+
+        }
+        else
+        {
+            <div class="alert alert-primary" role="alert">
+                <h4 class="alert-heading">سفارش شما با موفقیت ثبت گردید.</h4>
+                <p>شماره فاکتور : @Model.Factor </p>
+                <hr>
+                <p class="mb-0">سفارش شما در حال پردازش می باشد، همکاران ما برای ارسال در اسرع وقت با شما تماس خواهند گرفت</p>
+            </div>
+        }
+
+
+    </div>
+</div>

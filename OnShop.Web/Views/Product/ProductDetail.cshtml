@@ -1,0 +1,214 @@
+﻿@using OnShop.Web.Common
+@model OnShop.Domain.DTOs.Site.Products.ResultProductDetailsSiteDto
+@inject IResourceManager _resourceManager
+
+@{
+    ViewData["Title"] = _resourceManager[SharedResource.ProductDetailTitle, Model.Product.Title];
+}
+@{
+    var canPurchase = Model.Product.Quantity > 0 && Model.Product.CanPurchase;
+
+    string cssClass = "btn btn-danger";
+    if (canPurchase)
+    {
+        cssClass = "btn btn-success";
+    }
+}
+
+
+<div class="product_details mt-20">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="product-details-tab">
+                    @{var first = Model.Product.ImageSrc.FirstOrDefault();}
+                    <div id="img-1" class="zoomWrapper single-zoom">
+                        <a href="#">
+                            <img id="zoom1" src="/@first" data-zoom-image="/@first" alt="big-1">
+                        </a>
+                    </div>
+
+
+                    <div class="single-zoom-thumb">
+
+                        <ul class="s-tab-zoom owl-carousel single-product-active" id="gallery_01">
+                            @foreach (var src in Model.Product.ImageSrc)
+                            {
+                                <li>
+                                    <a href="#" class="elevatezoom-gallery active" data-update="" data-image="/@src" data-zoom-image="/@src">
+                                        <img src="/@src" alt="zo-th-1" />
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="product_d_right">
+
+                    <p class="h3">@Model.Product.Title</p>
+                    <p>@Model.Product.EnglishTitle</p>
+                    @*<div class="product_nav">
+                            <ul>
+                                <li class="next"><a href="variable-product.html"><i class="fa fa-angle-left"></i></a></li>
+                                <li class="prev"><a href="product-details.html"><i class="fa fa-angle-right"></i></a></li>
+                            </ul>
+                        </div>*@
+                    <div class=" product_ratting">
+                        <ul>
+                            @for (var i = 0; i < Model.Product.Star; i++)
+                            {
+                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+
+                            }
+                            @for (var i = 0; i < (5 - Model.Product.Star); i++)
+                            {
+                                <li><a href="#"><i class="fa fa-star-o"></i></a></li>
+
+                            }
+                            @*<li class="review"><a href="#"> (محبوب) </a></li>*@
+                        </ul>
+                    </div>
+
+
+                    <div class="price_box">
+                        @if (canPurchase)
+                        {
+                            <span class="current_price">@Model.Product.CurrentPrice.ToToman() </span>
+                            @if (Model.Product.Price > 0)
+                            {
+                                <span class="old_price">@Model.Product.OldPrice.ToToman()</span>
+                            }
+                        }
+
+                    </div>
+
+
+                    <div class="product_desc">
+                        <p>
+                            @Model.Product.ShortDescription
+                        </p>
+                    </div>
+                    <form method="post" asp-controller="Cart" asp-action="AddToCart">
+                        <div class="product_variant color">
+
+                            <h3>
+                                <span class="@cssClass">@Model.Product.Available</span>
+                            </h3>
+
+                            <br />
+                            <label>@_resourceManager[SharedResource.Color]</label>
+                            <ul>
+                                <li class="color1"><a href="#"></a></li>
+                                <li class="color2"><a href="#"></a></li>
+                                <li class="color3"><a href="#"></a></li>
+                                <li class="color4"><a href="#"></a></li>
+                            </ul>
+                        </div>
+                        <div class="product_variant quantity">
+                            <input asp-for="ProductAddToCart.ProductId" type="hidden" />
+
+                            @if (canPurchase)
+                            {
+                                <label> @_resourceManager[SharedResource.Quantity]</label>
+                                <input min="1" max="@Model.Product.Quantity" value="1" type="number" class="form-control" asp-for="ProductAddToCart.Count">
+
+                                @*<a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@Model.Product.Id" class="button"> @_resourceManager[SharedResource.AddToCart]</a>*@
+                                <button class="button" type="submit">@_resourceManager[SharedResource.AddToCart]</button>
+
+                            }
+                            else
+                            {
+                                <div class="discover_now">
+                                    <a href="#"> @_resourceManager[SharedResource.ProductInform]</a>
+                                </div>
+                            }
+
+                        </div>
+                    </form>
+                    <div class="product_d_meta">
+                        <p> @_resourceManager[SharedResource.ProductFeature] </p>
+                        @foreach (var fr in Model.ProductFeatures)
+                        {
+                            <span><strong>@fr.Title</strong> : @fr.Description </span>
+                        }
+                    </div>
+                    @*<input type="hidden" asp-for="Product.Id" />*@
+                    <div class="priduct_social">
+                        <ul>
+                            <li><a class="facebook" href="#" title="facebook"><i class="fa fa-facebook"></i> لایک</a></li>
+                            <li><a class="twitter" href="#" title="twitter"><i class="fa fa-twitter"></i> توئیت</a></li>
+                            <li><a class="pinterest" href="#" title="pinterest"><i class="fa fa-pinterest"></i> ساوا</a></li>
+                            <li><a class="google-plus" href="#" title="google +"><i class="fa fa-google-plus"></i> اشتراک</a></li>
+                            <li><a class="linkedin" href="#" title="linkedin"><i class="fa fa-linkedin"></i> لینکدین</a></li>
+                        </ul>
+                    </div>
+                    <br />
+                    @if (!string.IsNullOrEmpty(Model.Product.Tag))
+                    {
+                        <div class="widget_list widget_tag">
+                            <h6>برچسب محصولات</h6>
+                            <div class="tag_widget">
+                                <ul>
+                                    @foreach (var tag in Model.Product.Tag.Split(","))
+                                    {
+                                        <li><a href="#">@tag</a></li>
+
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="product_d_info">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="product_d_inner">
+                    <div class="product_info_button">
+                        <ul class="nav" role="tablist">
+                            <li>
+                                <a class="active" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="false">
+                                    <span class="ion-ios-glasses">&nbsp;</span> @_resourceManager[SharedResource.Review]
+                                </a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#sheet" role="tab" aria-controls="sheet" aria-selected="false">
+                                    <span class="ion-document-text">&nbsp;</span> @_resourceManager[SharedResource.Specification]
+                                </a>
+                            </li>
+                            @*<li>
+                                    <a data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">نظرات (1)</a>
+                                </li>*@
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="info" role="tabpanel">
+                            <div class="product_info_content">
+                                <p class="textalign">
+                                    @Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.Product.Description))
+                                </p>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="sheet" role="tabpanel">
+                            <partial name="_Technical" model="Model" />
+
+
+                        </div>
+                        @*<partial name="_Comment"/>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

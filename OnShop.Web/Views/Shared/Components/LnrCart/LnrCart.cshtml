@@ -1,0 +1,13 @@
+﻿@inject IResourceManager _resourceManager
+@model int
+@{
+    Layout = null;
+}
+
+<div class="mini_cart_wrapper">
+    <a  href="/cart" ><span class="lnr lnr-cart"></span> @_resourceManager[SharedResource.Buy] </a>
+    @if (Model > 0)
+    {
+        <span class="cart_quantity">@Model</span>
+    }
+</div>

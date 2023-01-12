@@ -1,0 +1,91 @@
+﻿@inject IResourceManager _resourceManager
+
+
+<div class="row">
+
+    <div class="col-12">
+        <div class="box">
+            <div class="box-header">
+                <a class="btn btn-primary" asp-area="Admin" asp-controller="Post" asp-action="Create">
+                    <i class="fa fa-plus"></i>
+                    @_resourceManager[SharedResource.Add]
+                </a>
+                <a class="btn btn-info pull-right" asp-area=""  asp-controller="Blog"  target="_blank">
+                    <i class="fa fa-eye"></i>
+                    مشاهده وبلاگ
+                </a>
+            </div>
+            <div class="box-body">
+                <div class="clearfix">
+                   
+                </div>
+                <div class="table-responsive ">
+                    <table id="PostTable" class="table table-striped table-sm table-bordered table-hover  dt-responsive nowrap display text-center"
+                           style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>@_resourceManager[SharedResource.Title]</th>
+                                <th>تصویر</th>
+                                <th>تاریخ ایجاد</th>
+                                <th>@_resourceManager[SharedResource.Operation]</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        function Delete(id) {
+            DeleteItem("/Admin/Post/Delete", id);
+        }
+
+        $(document).ready(function() {
+            $('#PostTable').dataTable({
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "orderMulti": false,
+                "ajax": {
+                    "url": "/Admin/Post/List",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columnDefs": [
+                    {
+                        "visible": false,
+                        "searchable": false,
+                    }
+                ],
+                "columns": [
+                    {
+                        "render": function ( data, type, full, meta ) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    { "data": "Title", "name": "@_resourceManager[SharedResource.Title]", "autoWidth": true },
+                    {
+                        "orderable": false
+                        ,  "render": function (data, type, row) {
+                            return `<span class='fa ${row.Image}'></span>`;
+                        }
+                    },
+                    { "data": "CreateDate", "name": "@_resourceManager[SharedResource.Parent]", "autoWidth": true },
+                    {
+                        "orderable": false
+                        ,"render": function(data, type, row) {
+                            return `<a href='/Blog/${row.Id}' target="_blank" class='btn btn-info btn-xs' title='مشاهده پست'><i class='fa fa-eye'></i></a>&nbsp;&nbsp;<a href='/Admin/Post/Edit/${row.Id}' class='btn btn-success btn-xs'><i class='fa fa-edit'></i></a>&nbsp;&nbsp;<button class='btn  btn-danger btn-xs' onclick=Delete(${row.Id}); id='btnBrandDelete'  ><i class='fa fa-remove'></i></button>`;
+                        },
+                    }
+                ]
+            });
+        });
+
+    </script>
+
+}

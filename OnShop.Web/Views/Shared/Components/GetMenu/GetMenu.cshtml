@@ -1,0 +1,47 @@
+﻿@model IReadOnlyList<OnShop.Domain.DTOs.Site.Common.MenuDto>
+@inject IResourceManager _resourceManager
+
+@{
+    Layout = null;
+}
+
+<div class="categories_menu">
+    <div class="categories_title">
+        <h2 class="categori_toggle">دسته بندی محصولات</h2>
+    </div>
+    <div class="categories_menu_toggle">
+        <ul>
+            @foreach (var item in Model)
+            {
+
+                var hasChildClass = item.Child.Any() ? "menu_item_children categorie_list" : string.Empty;
+
+                <li class="@hasChildClass">
+                    <a asp-action="Index" asp-controller="Product" asp-route-categoryId="@item.Id">
+                        <span class="fa @item.Icon"></span>&nbsp;@item.Title
+                        @if (item.Child.Any())
+                        {
+                            <i class="fa fa-angle-right"></i>
+                        }
+                    </a>
+                    @if (item.Child.Any())
+                    {
+                        <ul class="categories_mega_menu">
+                            <li class="menu_item_children">
+                                <ul class="categorie_sub_menu">
+                                    @foreach (var chd in item.Child)
+                                    {
+                                        <li><a asp-action="Index" asp-controller="Product" asp-route-categoryId="@chd.Id"> @chd.Title </a></li>
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+
+                    }
+
+                </li>
+            }
+        </ul>
+
+    </div>
+</div>

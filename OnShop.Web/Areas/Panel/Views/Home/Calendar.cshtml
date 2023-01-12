@@ -1,0 +1,173 @@
+﻿
+<div class="row">
+    <div class="col-12">
+        <div class="box">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-xl-9 col-lg-8 col-12">
+                        <div id='calendar2'></div>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-12">
+                        <div class="box no-border no-shadow">
+                            <div class="box-header with-border">
+                                <h4 class="box-title">تقویم رویداد شمسی</h4>
+                            </div>
+                            <div class="box-body p-0">
+                                <!-- the events -->
+                                <div id='external-events'>
+                                    <p>
+                                        برای ثبت رویداد جدید، رویداد های زیر را کشیده و در قسمت مورد
+                                        نظر رها کنید یا
+                                        روی روز مورد نظر کلیک کنید
+                                    </p>
+                                    <div class='fc-event mb-2'>رویداد 1</div>
+                                    <div class='fc-event mb-2'>رویداد 2</div>
+                                    <div class='fc-event mb-2'>رویداد 3</div>
+                                    <div class='fc-event mb-2'>رویداد 4</div>
+                                    <div class='fc-event mb-2'>رویداد 5</div>
+                                    <p class="mt-5">
+                                        <input type='checkbox' id='drop-remove' />
+                                        <label for='drop-remove'>حذف رویداد بعد از رها کردن</label>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+    <!-- Vendor JS -->
+    <!-- <script src="js/vendors.min.js"></script> -->
+    <script src="~/admin/assets/calendar-jallali/js/jquery.js"></script>
+    <script src="~/admin/assets/icons/feather-icons/feather.min.js"></script>
+    <script src="~/admin/assets/calendar-jallali/js/jquery-ui.min.js"></script>
+    <script src="~/admin/assets/vendor_components/perfect-scrollbar-master/perfect-scrollbar.jquery.min.js"></script>
+    <script src="~/admin/assets/calendar-jallali/js/moment.min.js"></script>
+    <script src="~/admin/assets/calendar-jallali/js/moment-jalaali.js"></script>
+    <script src="~/admin/assets/calendar-jallali/js/fullcalendar.min.js"></script>
+    <script src="~/admin/assets/calendar-jallali/js/fa.js"></script>
+
+    <!-- Sunny Admin App -->
+    <script src="~/admin/js/template.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#external-events .fc-event').each(function () {
+
+                $(this).data('event', {
+                    title: $.trim($(this).text()),
+                    stick: true
+                });
+
+                $(this).draggable({
+                    zIndex: 999,
+                    revert: true,
+                    revertDuration: 0
+                });
+
+            });
+
+
+            $('#calendar2').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                defaultDate: '2020-11-12',
+                selectable: true,
+                selectHelper: true,
+                select: function (start, end) {
+                    var title = prompt('عنوان رویداد : ');
+                    var eventData;
+                    if (title) {
+                        eventData = {
+                            title: title,
+                            start: start,
+                            end: end
+                        };
+                        $('#calendar2').fullCalendar('renderEvent', eventData,
+                            true);
+                    }
+                    $('#calendar2').fullCalendar('unselect');
+                },
+                lang: 'fa',
+                isJalaali: true,
+                isRTL: true,
+                editable: true,
+                droppable: true,
+                drop: function () {
+
+                    if ($('#drop-remove').is(':checked')) {
+
+                        $(this).remove();
+                    }
+                },
+
+                eventLimit: true,
+                events: [{
+                    title: 'رویداد روزانه',
+                    start: '2020-11-01'
+                },
+                {
+                    title: 'رویداد بلند',
+                    start: '2020-12-07',
+                    end: '2020-12-10'
+                },
+                {
+                    id: 999,
+                    title: 'رویداد تکراری',
+                    start: '2020-11-09T16:00:00'
+                },
+                {
+                    id: 999,
+                    title: 'رویداد تکراری',
+                    start: '2020-11-16T16:00:00'
+                },
+                {
+                    title: 'کنفرانس',
+                    start: '2020-11-11',
+                    end: '2020-11-13'
+                },
+                {
+                    title: 'جلسه',
+                    start: '2020-11-12T10:30:00',
+                    end: '2020-11-12T12:30:00'
+                },
+                {
+                    title: 'ناهار',
+                    start: '2020-11-12T12:00:00'
+                },
+                {
+                    title: 'جلسه',
+                    start: '2020-12-12T14:30:00'
+                },
+                {
+                    title: 'تایم استراحت',
+                    start: '2020-11-12T17:30:00'
+                },
+                {
+                    title: 'شام',
+                    start: '2020-12-12T20:00:00'
+                },
+                {
+                    title: 'جشن تولد',
+                    start: '2020-10-13T07:00:00'
+                },
+                {
+                    title: 'لینک گوگل',
+                    url: 'http://google.com/',
+                    start: '2020-11-28'
+                }
+                ]
+            });
+
+        });
+    </script>
+}

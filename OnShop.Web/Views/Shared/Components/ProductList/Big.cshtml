@@ -1,0 +1,32 @@
+﻿@using OnShop.Web.Models
+@model ProductListViewModel
+<section class="small_product_area mb-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section_title">
+                    <h2><span> @Model.Title </span></h2>
+                </div>
+                <div class="product_carousel small_product product_column3 owl-carousel">
+                    @foreach (var product in Model.Products)
+                    {
+                        <div class="single_product">
+                            <div class="product_content">
+                                <h3><a href="product-details.html">@product.Title</a></h3>
+                                @*<ProductStar Rate="@(product.Star)"/>*@
+                                <div class="price_box">
+                                    <span class="regular_price">@product.Price.ToToman()</span>
+                                    <span class="current_price">@product.CurrentPrice.ToToman()</span>
+                                    <span class="old_price">@product.OldPrice.ToToman()</span>
+                                </div>
+                            </div>
+                            <div class="product_thumb">
+                                <a class="primary_img" href="product-details.html"><img src="@(product.ImageSrc.FirstOrDefault())" alt=""></a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

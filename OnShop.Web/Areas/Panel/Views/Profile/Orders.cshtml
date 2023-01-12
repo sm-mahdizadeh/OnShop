@@ -1,0 +1,79 @@
+﻿@inject IResourceManager _resourceManager
+@using OnShop.Web.Common
+@model OnShop.Domain.DTOs.QueryList<OnShop.Domain.Orders.Dtos.OrderDto>
+@{
+    ViewData["Title"] = _resourceManager[SharedResource.Order];
+}
+
+
+
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="/">@_resourceManager[SharedResource.HomePage]</a></li>
+                        <li><a href="#">@_resourceManager[SharedResource.Panel]</a></li>
+                        <li>@_resourceManager[SharedResource.Order]</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="main_content_area">
+    <div class="container">
+        <div class="account_dashboard">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+
+                    <div class="tab-content dashboard_content">
+                        <div class="tab-pane show active" id="account-details">
+                            <h3>
+                                <span class="fa fa-sort-numeric-up-alt"></span>
+                                تعداد سفارشات : @Model.TotalCount
+                            </h3>
+                            <div class="login">
+                                <div class="login_form_container">
+                                    <div class="account_login_form">
+                                        <div class="tab-pane" id="downloads">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-hover   table-responsive">
+                                                    <thead class="thead-dark">
+                                                        <tr>
+                                                            <th>شماره فاکتور</th>
+                                                            <th>وضعیت</th>
+                                                            <th>تاریخ سفارش</th>
+                                                            <th>جمع کل</th>
+                                                            <th>نمایش</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="table-dark">
+                                                        @foreach (var item in Model.Data)
+                                                        {
+                                                            <tr>
+                                                                <td>@item.Factor</td>
+                                                                <td>@item.OrderState</td>
+                                                                <td>@item.OrderDate.ToPersian("yyyy-MM-dd")</td>
+                                                                <td>@item.Amount.ToToman()</td>
+                                                                <td>
+                                                                    <a href="/panel/profile/orderdetails?orderId=@item.Id"><i class="fa fa-eye"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

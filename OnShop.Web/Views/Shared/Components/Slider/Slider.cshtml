@@ -1,0 +1,28 @@
+﻿@model IReadOnlyList<OnShop.Domain.Slider.Dtos.SliderDto>
+
+@{
+    Layout = null;
+}
+
+<section class="slider_section slider_two mb-50">
+    <div class="slider_area owl-carousel">
+        @foreach (var slider in Model)
+        {
+            <div class="single_slider d-flex align-items-center" data-bgimg="/@slider.Src">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="slider_content">
+                                <h2>@slider.Title</h2>
+                                <h1>@slider.Description</h1>
+                                <a class="button" href="~/product"> اکنون خرید کنید </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</section>
+

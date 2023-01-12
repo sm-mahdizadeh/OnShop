@@ -1,0 +1,80 @@
+﻿@inject IResourceManager _resourceManager
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="clearfix">
+                    <a class="btn btn-success  mb-5" asp-area="Admin" asp-controller="Arrangement" asp-action="Create">
+                        <i class="fa fa-plus"></i>
+                        @_resourceManager[SharedResource.Add]
+                    </a>
+                </div>
+            </div>
+            <div class="box-body">
+               
+                <div class="table-responsive ">
+                    <table id="arrTable" class="table table-striped table-sm table-bordered table-hover  dt-responsive nowrap display text-center"
+                           style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>نوع</th>
+                                <th>اولویت نمایش</th>
+                                <th>@_resourceManager[SharedResource.Operation]</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        function Delete(id) {
+            Ui.DeleteArrangement(id);
+        }
+
+        $(document).ready(function () {
+            $('#arrTable').dataTable({
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "orderMulti": false,
+                "ajax": {
+                    "url": "/Admin/Arrangement/List",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columnDefs": [
+                    {
+                        "visible": false,
+                        "searchable": false,
+                    }
+                ],
+                "columns": [
+                    {
+                        "render": function (data, type, full, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    { "data": "Type", "name": "Type", "autoWidth": true },
+                    { "data": "Priority", "name": "Priority", "autoWidth": true },
+                    {
+                        "orderable": false
+                        , "render": function (data, type, row) {
+                            return `<a href='/Admin/Arrangement/Edit/${row.Id}' class='btn btn-info btn-xs'><i class='fa fa-edit'></i></a>&nbsp;&nbsp;<button class='btn  btn-danger btn-xs' onclick=Delete(${row.Id}); id='btnBrandDelete'  ><i class='fa fa-remove'></i></button>`;
+                        },
+                    }
+                ]
+            });
+        });
+
+    </script>
+}
+

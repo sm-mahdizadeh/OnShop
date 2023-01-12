@@ -1,0 +1,217 @@
+﻿@model ProductViewModel
+@inject IResourceManager _resourceManager
+
+<div class="row">
+    <div class="col-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h4 class="box-title">@_resourceManager[SharedResource.Product]</h4>
+            </div>
+            <div class="box-body">
+
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#product" role="tab"><span><i class="ion-bag mr-15"></i> @_resourceManager[SharedResource.Product]</span></a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#productFeatures" role="tab"><span><i class="ion-ios-pricetag-outline mr-15"></i>@_resourceManager[SharedResource.ProductFeature]</span></a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#productTechnical" role="tab"><span><i class="ion-email mr-15"></i>@_resourceManager[SharedResource.ProductTechnician]</span></a> </li>
+                </ul>
+                <form enctype="multipart/form-data" asp-action="Create" asp-controller="Product" asp-area="Admin" method="post" id="productform">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="tab-content tabcontent-border" id="tabDiv">
+                        <div class="tab-pane active" id="product" role="tabpanel">
+                            <partial name="_product" for="@Model.ProductDto" />
+                        </div>
+                        <div class="tab-pane" id="productFeatures" role="tabpanel">
+                            <partial name="_productFeatures" />
+                        </div>
+                        <div class="tab-pane" id="productTechnical" role="tabpanel">
+                            <partial name="_productTechnical" />
+                        </div>
+                    </div>
+
+
+                    <div class="box-footer text-right">
+                        <button class="btn btn-success mr-1 mb-5 pull-right" id="btnSubmit" type="button" onclick="OnSub()">
+                            <span class="fa fa-check-circle"></span>
+                            @_resourceManager[SharedResource.Save]
+                        </button>
+                        <a asp-action="Index" class="btn btn-danger mb-5  pull-right">
+                            <span class="fa fa-fw fa-undo"></span>
+                            @_resourceManager[SharedResource.Cancel]
+
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+@section Scripts
+{
+    <script src="~/Admin/js/productFeatures.js"></script>
+    <script src="~/Admin/js/productTc.js"></script>
+    <script>
+        //function format(input) {
+        //    var nStr = input.value + '';
+        //    nStr = nStr.replace(/\,/g, "");
+        //    x = nStr.split('.');
+        //    x1 = x[0];
+        //    x2 = x.length > 1 ? '.' + x[1] : '';
+        //    var rgx = /(\d+)(\d{3})/;
+        //    while (rgx.test(x1)) {
+        //        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        //    }
+        //    input.value = x1 + x2;
+        //}
+
+        $(document).ready(function () {
+            $('#addFeatureBtn').click(function () { AddTempFeatures(); });
+            $('#addFeatureTcBtn').click(function () { AddTempFeaturesTc(); });
+
+            if (window.File && window.FileList && window.FileReader) {
+                $("#ProductDto_Files").on("change",
+                    function (e) {
+                        var files = e.target.files,
+                            filesLength = files.length;
+                        for (var i = 0; i < filesLength; i++) {
+                            var f = files[i];
+                            var fileReader = new FileReader();
+                            fileReader.onload = (function (e) {
+                                var file = e.target;
+                                $("<span class=\"pip\">" +
+                                    "<img class=\"imageThumb\" src=\"" +
+                                    e.target.result +
+                                    "\" title=\"" +
+                                    file.name +
+                                    "\"/>" +
+                                    "<br/><span class=\"remove fa fa-remove\">حذف&nbsp;</span>" +
+                                    "</span>").insertAfter("#ProductDto_Files");
+                                $(".remove").click(function () {
+                                    $(this).parent(".pip").remove();
+                                });
+                            });
+                            fileReader.readAsDataURL(f);
+                        }
+                    });
+            } else {
+                alert("Your browser doesn't support to File API");
+            }
+        });
+
+
+
+        function OnSub() {
+            var editorText = CKEDITOR.instances.editor1.getData();
+            var $form = $("#productform");
+            $.validator.unobtrusive.parse($form);
+
+            var data = new FormData();
+            data.append('Title', $("#ProductDto_Title").val());
+            data.append('EnglishTitle', $("#ProductDto_EnglishTitle").val());
+            data.append('Code', $("#ProductDto_Code").val());
+            data.append('Quantity', $("#ProductDto_Quantity").val());
+            data.append('CategoryId', $('#ProductDto_CategoryId').find('option:selected').val());
+            data.append('BrandId', $('#ProductDto_BrandId').find('option:selected').val());
+            data.append('CanPurchase', $("#ProductDto_CanPurchase").attr("checked") ? true : false);
+            data.append('Displayed', $("#ProductDto_Displayed").attr("checked") ? true : false);
+            data.append('Price', $("#ProductDto_Price").val());
+            data.append('Discount', $("#ProductDto_Discount").val());
+            data.append('Tag', $("#ProductDto_Tag").val());
+            data.append('ShortDescription', $("#ProductDto_ShortDescription").val());
+            data.append('Description', editorText);
+
+
+            var featuresList = []; // list object
+            $('#table-information > tbody  > tr').each(function () { //loop in table list
+                var feature = {}; // create new Movie object and set its properties
+                feature.Title = this.cells[0].innerHTML;
+                feature.EnglishTitle = this.cells[1].innerHTML;
+                feature.Description = this.cells[2].innerHTML;
+                featuresList.push(feature); // add feature object to list object
+            });
+            var inst = JSON.stringify(featuresList);
+            data.append('ProductFeatureDto', inst);
+
+
+            var technicalList = []; // list object
+            $('#table-information_Tc > tbody  > tr').each(function () { //loop in table list
+                var feature = {}; // create new Movie object and set its properties
+                feature.Title = this.cells[0].innerHTML;
+                feature.Description = this.cells[1].innerHTML;
+                technicalList.push(feature); // add Movie object to list object
+            });
+            var technical = JSON.stringify(technicalList);
+            data.append('ProductTechnical', technical);
+
+            var productImages = document.getElementById("ProductDto_Files");
+            if (productImages.files.length > 0) {
+                for (var i = 0; i < productImages.files.length; i++) {
+                    data.append('Images-' + i, productImages.files[i]);
+                }
+            }
+
+
+            if ($form.valid()) {
+                if (technicalList.length <= 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطا...',
+                        text: 'لطفا یک مشخصات فنی را وارد نمایید!',
+                    });
+                    return;
+                }
+                if (featuresList.length <= 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطا...',
+                        text: 'لطفا یک ویژگی را وارد نمایید',
+                    });
+                    return;
+                }
+                var ajaxRequest = $.ajax({
+                    type: 'POST',
+                    url: '/Admin/product/create',
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (data) {
+
+                        if (data.IsSuccess == true) {
+
+                            Swal.fire(
+                                'موفق!',
+                                data.message,
+                                'success'
+                            ).then(function (isConfirm) {
+                                window.location.href = "/Admin/product/index";
+
+                            });
+                        }
+                        else {
+
+                            Swal.fire(
+                                'هشدار!',
+                                data.message,
+                                'warning'
+                            );
+                        }
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
+            }
+
+        }
+
+    </script>
+
+    <script src="~/Admin/assets/vendor_components/ckeditor/ckeditor.js"></script>
+    <script src="~/Admin/js/pages/editor.js"></script>
+}

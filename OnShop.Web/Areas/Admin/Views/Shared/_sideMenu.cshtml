@@ -1,0 +1,111 @@
+﻿@inject IResourceManager _resourceManager
+
+<aside class="main-sidebar">
+    <!-- sidebar-->
+    <section class="sidebar">
+
+        <div class="user-profile">
+            <div class="ulogo">
+                <a href="/">
+                    <!-- logo for regular state and mobile devices -->
+                    <div class="d-flex align-items-center justify-content-center">
+                        <img src="/img/logo/smallLogo.png" alt="">
+                        <h3><b>ظروف</b> خونگی</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- sidebar menu-->
+        <ul class="sidebar-menu" data-widget="tree">
+
+            <li>
+                <a asp-action="Index" asp-controller="Home">
+                    <i data-feather="pie-chart"></i>
+                    <span class="mnu_adminhomeindex">داشبورد</span>
+                </a>
+            </li>
+
+            <li class="treeview mnu_admin">
+                <a href="#">
+                    <i data-feather="grid"></i>
+                    <span> @_resourceManager[SharedResource.UserManagement]</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="mnu_adminrolesindex"><a asp-area="Admin" asp-action="Index" asp-controller="Roles"><i class="ti-more"></i>دسترسی</a></li>
+                    <li class="mnu_adminuserindex"><a asp-area="Admin" asp-action="Index" asp-controller="User"><i class="ti-more"></i>کاربران</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview ">
+                <a href="#">
+                    <i data-feather="package"></i>
+                    <span> @_resourceManager[SharedResource.ProductManagement]</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="mnu_adminbrandindex"><a asp-action="Index" asp-controller="Brand"><i class="ti-more"></i>برند</a></li>
+                    <li class="mnu_admincategorycreate mnu_admincategoryindex mnu_admincategoryedit"><a asp-action="Index" asp-controller="Category" asp-area="Admin"><i class="ti-more"></i>دسته بندی</a></li>
+                    <li class="mnu_adminproductcreate"><a asp-action="index" asp-controller="Product" asp-area="Admin"><i class="ti-more"></i>محصولات</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i data-feather="hard-drive"></i>
+                    <span> مدیریت سایت</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="mnu_adminstoreindex mnu_adminstorecreate mnu_adminstoreedit"><a asp-action="Index" asp-controller="Store"><i class="ti-more"></i>فروشگاه</a></li>
+                    <li class="mnu_adminsliderindex mnu_adminslidercreate mnu_adminslideredit"><a asp-action="Index" asp-controller="Slider"><i class="ti-more"></i>اسلایدر</a></li>
+                    <li class="mnu_adminarrangementindex mnu_adminarrangementcreate mnu_adminarrangementedit"><a asp-action="Index" asp-controller="Arrangement"><i class="ti-more"></i>چیدمان صفحه اول</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i data-feather="file"></i>
+                    <span> مدیریت وبلاگ</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="mnu_adminpostcategoryindex mnu_adminpostcategorycreate mnu_adminpostcategoryedit"><a asp-action="Index" asp-controller="PostCategory"><i class="ti-more"></i>دسته بندی</a></li>
+                    <li class="mnu_adminpostindex mnu_adminpostcreate mnu_adminpostedit"><a asp-action="Index" asp-controller="Post"><i class="ti-more"></i>پست</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i data-feather="message-circle"></i>
+                    <span> سایر</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="mnu_adminhomecalendar"><a asp-action="Calendar" asp-controller="Home"><i class="ti-more"></i>تقویم</a></li>
+                    <li class="mnu_adminnotificationindex"><a asp-action="Index" asp-controller="Notification"><i class="ti-more"></i>اعلان ها</a></li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <div class="sidebar-footer">
+        <!-- item-->
+        <a href="javascript:void(0)" class="link" data-toggle="tooltip" title="" data-original-title="تنظیمات" aria-describedby="tooltip92529"><i class="ti-settings"></i></a>
+        <!-- item-->
+        <a href="mailbox_inbox.html" class="link" data-toggle="tooltip" title="" data-original-title="ایمیل"><i class="ti-email"></i></a>
+        <!-- item-->
+        <a href="javascript:void(0)" class="link" data-toggle="tooltip" title="" data-original-title="خروج"><i class="ti-lock"></i></a>
+    </div>
+</aside>
+
+
+<input type="hidden" id="pageId" value="@ViewData["PageId"]" />

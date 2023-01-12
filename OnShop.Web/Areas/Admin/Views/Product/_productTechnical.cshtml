@@ -1,0 +1,52 @@
+﻿@inject IResourceManager _resourceManager
+<div id="PrFeaturesTc">
+    <div class="form-group row p-15">
+        <div class="col-md-12">
+            <label class="control-label">@_resourceManager[SharedResource.Title]</label>
+            <div class="input-group">
+                <input type="text" id="Tc_Title" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group row p-15">
+        <div class="col-md-12">
+            <label class="control-label">@_resourceManager[SharedResource.Description]</label>
+            <div class="input-group">
+                <textarea id="Tc_Description" class="form-control" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row p-15">
+        <div class="col-md-12">
+            <a href="javascript:void(0)" class="btn btn-primary" id="addFeatureTcBtn">@_resourceManager[SharedResource.Save]</a>
+        </div>
+    </div>
+
+    <div class="form-group row p-15">
+        <div class="col-md-12">
+            <section id="MsnContainerTc">
+                <section class="text-center">
+                    <label class="font-weight-bold text-danger" id="MsnTc"></label>
+                </section>
+            </section>
+            <br><br>
+            <section id="table-container_Tc">
+
+                <table class="table table-bordered table-striped" id="table-information_Tc">
+                    <thead>
+                        <tr class="bg-info text-light font-weight-bold text-center">
+                            <td>@_resourceManager[SharedResource.Title]</td>
+                            <td>@_resourceManager[SharedResource.Description]</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body_tc"></tbody>
+
+                </table>
+
+            </section>
+        </div>
+    </div>
+
+</div>

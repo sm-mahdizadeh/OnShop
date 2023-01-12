@@ -1,0 +1,37 @@
+﻿@model int
+<li class="dropdown notifications-menu">
+    <a href="#" class="waves-effect waves-light rounded dropdown-toggle" data-toggle="dropdown" title="اعلان ها" onclick="Ui.LoadNotification()">
+        @if (Model == 0)
+        {
+            <i class="ti-bell"></i>
+        }
+        else
+        {
+            <i class="ti-bell" style="color:red"></i><sup>@Model</sup>
+        }
+    </a>
+    <ul class="dropdown-menu animated bounceIn">
+
+        <li class="header">
+            <div class="p-20">
+                <div class="flexbox">
+                    <div>
+                        <h4 class="mb-0 mt-0">اعلان ها</h4>
+                    </div>
+                    <div>
+                        <span id="notificationCount" class="text-info">@Model   </span>
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li>
+            <ul id="notificationList" class="menu sm-scrol">
+              
+            </ul>
+        </li>
+        <li class="footer">
+            <a asp-action="index" asp-controller="Notification">مشاهده همه</a>
+        </li>
+    </ul>
+</li>
