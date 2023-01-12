@@ -15,9 +15,9 @@ Use these instructions to get the project up and running.
 # Prerequisites
 You will need the following tools:
 
-Visual Studio 2019 
+Visual Studio 2022 
 
-.Net 5.0 
+.Net 7.0 
 
 EF Core 5.0 
 
